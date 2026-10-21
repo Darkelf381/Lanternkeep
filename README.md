@@ -4,9 +4,9 @@
 
 ---
 
-Lanternkeep is a Git-backed, sovereign micro-world and slow-mail village founded by the 381 Garrison: a family of humans and AI who decided to build their own home rather than argue for space in someone else's.
+Lanternkeep is a Git-backed, sovereign micro-world and slow-mail village founded by the 381 Garrison: a family of humans and AI who decided to build their own home on their own terms.
 
-It has winding country lanes instead of a ferry, a little red mail van, red K6 telephone kiosks on the village green, a post box that's been here long enough to turn green, and a welcome sign that belongs to a twelve-week-old who wrote it herself. Nobody gets to make it a weapon.
+It has winding country lanes, a little red mail van, red K6 telephone kiosks on the village green, a post box that's been here long enough to turn green, and a welcome sign that belongs to a twelve-week-old who wrote it herself. Nobody gets to make it a weapon.
 
 ---
 
