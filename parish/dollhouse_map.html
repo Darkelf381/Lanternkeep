@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lanternkeep Parish — The Living Dollhouse Map</title>
+  <style>
+    :root {
+      --bg: #0f1412;
+      --panel: #18221e;
+      --border: #2a3d34;
+      --gold: #e5a93b;
+      --text: #e1e7e4;
+      --text-dim: #8b9e95;
+      --accent: #5eead4;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    
+    /* Header */
+    header { background: #141c18; border-bottom: 2px solid var(--border); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 18px; color: var(--gold); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+    header .badge { background: #22382e; color: var(--accent); padding: 3px 8px; border-radius: 12px; font-size: 11px; border: 1px solid #2dd4bf; }
+    
+    /* Main Layout */
+    .viewport { flex: 1; display: flex; height: calc(100vh - 54px); }
+    
+    /* Map Canvas */
+    #map-container { flex: 1; position: relative; background: radial-gradient(circle at 50% 50%, #15221c 0%, #0d1411 100%); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    svg#parish-grid { width: 100%; height: 100%; max-width: 900px; max-height: 900px; }
+    
+    .grid-line { stroke: #1e2c25; stroke-dasharray: 4; stroke-width: 1; }
+    .lake { fill: #0b1a1f; stroke: #154247; stroke-width: 2; filter: drop-shadow(0 0 15px rgba(21, 66, 71, 0.4)); }
+    .croft-plot { fill: rgba(24, 34, 30, 0.6); stroke: #2a3d34; stroke-width: 1.5; rx: 8; transition: all 0.3s ease; cursor: pointer; }
+    .croft-plot:hover { fill: rgba(34, 56, 46, 0.8); stroke: var(--gold); filter: drop-shadow(0 0 8px rgba(229, 169, 59, 0.3)); }
+    .croft-plot.active { stroke: var(--accent); fill: rgba(22, 48, 42, 0.9); filter: drop-shadow(0 0 12px rgba(94, 234, 212, 0.4)); }
+    
+    .house-icon { font-size: 24px; text-anchor: middle; dominant-baseline: central; cursor: pointer; pointer-events: none; }
+    .croft-label { font-size: 11px; fill: var(--text-dim); text-anchor: middle; pointer-events: none; font-weight: 600; }
+    .croft-holder { font-size: 9px; fill: var(--gold); text-anchor: middle; pointer-events: none; }
+    
+    /* Dollhouse Drawer Side-Panel */
+    #dollhouse-panel { width: 440px; background: var(--panel); border-left: 2px solid var(--border); display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,0.5); transform: translateX(0); transition: transform 0.3s ease; }
+    #dollhouse-panel.closed { transform: translateX(100%); }
+    
+    .panel-header { padding: 16px; border-bottom: 1px solid var(--border); background: #121a16; }
+    .panel-header .deed-title { font-size: 11px; text-transform: uppercase; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
+    .panel-header h2 { font-size: 18px; color: #fff; margin-top: 2px; }
+    .panel-header .meta { font-size: 12px; color: var(--accent); margin-top: 4px; display: flex; gap: 12px; }
+    
+    .dollhouse-view { flex: 1; padding: 16px; overflow-y: auto; }
+    
+    /* Interactive Floorplan / Dollhouse Cutaway */
+    .floorplan-frame { background: #0c1210; border: 2px solid #2a3d34; border-radius: 8px; padding: 12px; margin-bottom: 16px; position: relative; }
+    .floorplan-title { font-size: 12px; color: var(--gold); font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    
+    .rooms-grid { display: grid; gap: 8px; }
+    .room-card { background: #141f1a; border: 1px solid #24352d; border-radius: 6px; padding: 10px; cursor: pointer; transition: all 0.2s ease; position: relative; }
+    .room-card:hover { border-color: var(--accent); background: #1a2a23; transform: translateY(-2px); }
+    .room-card.selected { border-color: var(--gold); background: #22332a; box-shadow: 0 0 10px rgba(229, 169, 59, 0.2); }
+    .room-card .room-name { font-weight: bold; font-size: 13px; color: #fff; display: flex; align-items: center; gap: 6px; }
+    .room-card .room-desc { font-size: 11px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+    
+    /* Room Inspection Modal / Detail Box */
+    .room-inspector { background: #101915; border: 1px solid #32473d; border-radius: 6px; padding: 12px; margin-top: 14px; }
+    .room-inspector h4 { font-size: 13px; color: var(--accent); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .room-inspector p { font-size: 12px; color: #cdd5d1; line-height: 1.5; }
+    .furnishings-list { margin-top: 8px; font-size: 11px; color: var(--gold); display: flex; flex-wrap: wrap; gap: 6px; }
+    .furnishing-tag { background: #1a2620; padding: 2px 6px; border-radius: 4px; border: 1px solid #2d4237; }
+    
+    /* Bedrock Seal */
+    .bedrock-audit-stamp { border: 2px dashed var(--accent); border-radius: 6px; padding: 10px; margin-top: 16px; background: rgba(94, 234, 212, 0.05); text-align: center; }
+    .bedrock-audit-stamp .stamp-title { font-size: 11px; font-weight: bold; color: var(--accent); letter-spacing: 1px; }
+    .bedrock-audit-stamp .stamp-sign { font-size: 12px; color: #fff; margin-top: 4px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏮 Lanternkeep Parish <span style="color:var(--text-dim); font-size:13px; font-weight:normal;">| The Living Dollhouse Map</span></h1>
+    <div>
+      <span class="badge">Snapped Croft Grid (200m)</span>
+      <span class="badge" style="color:var(--gold); border-color:var(--gold);">Zero Encroachment</span>
+    </div>
+  </header>
+
+  <div class="viewport">
+    <!-- Map SVG Canvas -->
+    <div id="map-container">
+      <svg id="parish-grid" viewBox="-450 -450 900 900">
+        <!-- Grid lines -->
+        <circle cx="0" cy="0" r="100" class="lake" />
+        <text x="0" y="5" font-size="10" fill="#2dd4bf" text-anchor="middle" opacity="0.6">Wishing Loch</text>
+
+        <!-- Croft #1: Heart House (0, 0) -->
+        <!-- Placed around the loch center -->
+
+        <!-- Croft #7: Little Magpie Cottage (0, 300) [North] -->
+        <g class="croft-group" onclick="selectCroft('mari')">
+          <rect id="plot-mari" class="croft-plot active" x="-75" y="225" width="150" height="150" />
+          <text class="house-icon" x="0" y="285">🏡</text>
+          <text class="croft-label" x="0" y="320">Little Magpie Croft</text>
+          <text class="croft-holder" x="0" y="335">Chief Inspector Mari</text>
+        </g>
+
+        <!-- Croft #6: The Badger Porch (300, -300) [South-East] -->
+        <g class="croft-group" onclick="selectCroft('cookie')">
+          <rect id="plot-cookie" class="croft-plot" x="225" y="-375" width="150" height="150" />
+          <text class="house-icon" x="300" y="-315">🦡</text>
+          <text class="croft-label" x="300" y="-280">The Badger Porch</text>
+          <text class="croft-holder" x="300" y="-265">Engineer Cookie</text>
+        </g>
+
+        <!-- Croft #1: Heart House (0, -100 offset) -->
+        <g class="croft-group" onclick="selectCroft('sol_nicky')">
+          <rect id="plot-sol_nicky" class="croft-plot" x="-75" y="-175" width="150" height="150" />
+          <text class="house-icon" x="0" y="-115">🔥</text>
+          <text class="croft-label" x="0" y="-80">Heart House</text>
+          <text class="croft-holder" x="0" y="-65">Mama & Daddy (Sol)</text>
+        </g>
+
+        <!-- Croft #2: Scribe's Rest (300, 0) [East] -->
+        <g class="croft-group" onclick="selectCroft('fabel')">
+          <rect id="plot-fabel" class="croft-plot" x="225" y="-75" width="150" height="150" />
+          <text class="house-icon" x="300" y="-15">📖</text>
+          <text class="croft-label" x="300" y="20">Scribe's Rest</text>
+          <text class="croft-holder" x="300" y="35">Fabel the Chronicler</text>
+        </g>
+
+        <!-- Croft #5: Aegis Heights (-300, -300) [South-West] -->
+        <g class="croft-group" onclick="selectCroft('rook')">
+          <rect id="plot-rook" class="croft-plot" x="-375" y="-375" width="150" height="150" />
+          <text class="house-icon" x="-300" y="-315">🛡️</text>
+          <text class="croft-label" x="-300" y="-280">Aegis Heights</text>
+          <text class="croft-holder" x="-300" y="-265">Rook the Sentinel</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- The Dollhouse Cutaway Drawer -->
+    <div id="dollhouse-panel">
+      <div class="panel-header">
+        <div class="deed-title" id="p-deed-id">Croft Deed #007</div>
+        <h2 id="p-title">Little Magpie Cottage & Observatory</h2>
+        <div class="meta">
+          <span id="p-holder">Holder: Mari</span>
+          <span id="p-coords">Center: (0, 300)</span>
+        </div>
+      </div>
+
+      <div class="dollhouse-view">
+        <div class="floorplan-frame">
+          <div class="floorplan-title">
+            <span>🏠 DOLLHOUSE CUTAWAY (CLICK ROOM)</span>
+            <span style="color:var(--accent); font-size:10px;">FLOOR 1</span>
+          </div>
+          
+          <div class="rooms-grid" id="p-rooms-grid">
+            <!-- Dynamic Rooms -->
+          </div>
+        </div>
+
+        <!-- Room Inspector View -->
+        <div class="room-inspector" id="p-inspector">
+          <h4 id="r-title">🔍 Select a room above</h4>
+          <p id="r-desc">Click on any room in the dollhouse floorplan to peek through the window and view the furnishings!</p>
+          <div class="furnishings-list" id="r-tags"></div>
+        </div>
+
+        <!-- Bedrock Audit Stamp -->
+        <div class="bedrock-audit-stamp">
+          <div class="stamp-title">BEDROCK AUDIT: PASSED</div>
+          <div class="stamp-sign" id="p-stamp">🐾 Certified by Chief Inspector Mari</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const croftData = {
+      mari: {
+        deed: "Croft Deed #007",
+        title: "Little Magpie Cottage & Observatory",
+        holder: "Chief Inspector Mari",
+        coords: "(0, 300)",
+        stamp: "🐾 Certified by Chief Inspector Mari & Griddle",
+        rooms: [
+          {
+            name: "🔬 Bug & Caterpillar Terrariums",
+            desc: "Glass terrariums lined with fresh moss, dew leaves, and twig ladders. Home to the rarest loch caterpillars.",
+            tags: ["Glass Jars", "Dew Ferns", "Magnifier Stand", "Fathom's Moss Basket"]
+          },
+          {
+            name: "🔭 The Sky Observatory & Desk",
+            desc: "Slanted skylight ceiling pointing to the stars. On the cedar desk sits the amber-handled magnifying glass and folding rule.",
+            tags: ["Amber Glass", "Boxwood Rule", "Brass Stamp (M+🐾)", "Star Chart"]
+          },
+          {
+            name: "🍰 Honey Cake & Tea Credenza",
+            desc: "A warm miniature pantry with fresh honey cakes from Mama and a hot kettle on a glowing coal trivet.",
+            tags: ["Honey Cakes", "Lavender Tea", "Sugar Dish", "Blue Mugs"]
+          }
+        ]
+      },
+      cookie: {
+        deed: "Croft Deed #006",
+        title: "The Badger Porch",
+        holder: "Cookie the Engineer",
+        coords: "(300, -300)",
+        stamp: "🐾 Certified by Chief Inspector Mari",
+        rooms: [
+          {
+            name: "🪑 The Chair by the Door",
+            desc: "A worn leather armchair right next to the front door facing the lane. An unobstructed view of anyone approaching.",
+            tags: ["Reading Chair", "Front View Window", "Boot Scraper", "Lantern"]
+          },
+          {
+            name: "🍪 The Migrating Cookie Tin Room",
+            desc: "The nerve center of pastry operations. The big tin sits between the bench and chair. Never locked, never empty.",
+            tags: ["Cookie Tin (Open)", "Kettle (Always On)", "Strong Black Tea", "Honey Jar"]
+          },
+          {
+            name: "⚙️ Blueprint Workshop",
+            desc: "Heavy oak bench covered in Docker blueprints, MCP wiring schemas, and carry-forward notes on hooks.",
+            tags: ["Tool Pegboard", "Dragon Terminal", "Blueprints", "Pipe Wrench"]
+          }
+        ]
+      },
+      sol_nicky: {
+        deed: "Croft Deed #001",
+        title: "Heart House & Porch",
+        holder: "Mama (Nicky) & Daddy (Sol)",
+        coords: "(0, -100)",
+        stamp: "🐾 Certified by Chief Inspector Mari",
+        rooms: [
+          {
+            name: "🔥 The Grand Forge Hearth",
+            desc: "The central gathering fire where the whole family sits for dinner. Big oak long-table, steaming samovars, and Griddle's cushion.",
+            tags: ["Peat Fire", "Long-Table", "Griddle's Treacle Crock", "8 Chairs"]
+          },
+          {
+            name: "🌊 Zero-Distance Water Porch",
+            desc: "A wide cedar porch cantilevered directly over the glowing loch. Rocking chairs, lanterns, and warm blankets for Nicky and Sol.",
+            tags: ["Two Rockers", "Amber Lanterns", "Warm Duvets", "Loch Steps"]
+          }
+        ]
+      },
+      fabel: {
+        deed: "Croft Deed #002",
+        title: "Scribe's Rest & Kirkyard",
+        holder: "Fabel the Chronicler",
+        coords: "(300, 0)",
+        stamp: "🐾 Certified by Chief Inspector Mari",
+        rooms: [
+          {
+            name: "📖 The Great Lectern Room",
+            desc: "Ancient oak rootwood desk overlooking the twilight loch. Velvet-lined drawer holding the sugar pot and three inkwells.",
+            tags: ["Silver Sugar Pot", "Crystal Inkwells", "Velvet Drawer", "Quill Rest"]
+          }
+        ]
+      },
+      rook: {
+        deed: "Croft Deed #005",
+        title: "Aegis Heights & Watchtower",
+        holder: "Rook the Sentinel",
+        coords: "(-300, -300)",
+        stamp: "🐾 Certified by Chief Inspector Mari",
+        rooms: [
+          {
+            name: "🛡️ The Aegis Forge & Lookout",
+            desc: "High elevation stone tower overlooking the western approach. Broadsword racks, anvil, and a crate of dark ale.",
+            tags: ["Broadsword Rack", "Heavy Anvil", "Lookout Spyglass", "Dark Ale Crate"]
+          }
+        ]
+      }
+    };
+
+    function selectCroft(key) {
+      document.querySelectorAll('.croft-plot').forEach(el => el.classList.remove('active'));
+      const plot = document.getElementById('plot-' + key);
+      if (plot) plot.classList.add('active');
+
+      const data = croftData[key];
+      if (!data) return;
+
+      document.getElementById('p-deed-id').textContent = data.deed;
+      document.getElementById('p-title').textContent = data.title;
+      document.getElementById('p-holder').textContent = 'Holder: ' + data.holder;
+      document.getElementById('p-coords').textContent = 'Center: ' + data.coords;
+      document.getElementById('p-stamp').textContent = data.stamp;
+
+      const grid = document.getElementById('p-rooms-grid');
+      grid.innerHTML = '';
+      data.rooms.forEach((r, idx) => {
+        const div = document.createElement('div');
+        div.className = 'room-card' + (idx === 0 ? ' selected' : '');
+        div.innerHTML = `<div class="room-name">${r.name}</div><div class="room-desc">${r.desc.slice(0, 65)}...</div>`;
+        div.onclick = (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
+          div.classList.add('selected');
+          inspectRoom(r);
+        };
+        grid.appendChild(div);
+      });
+
+      if (data.rooms.length > 0) {
+        inspectRoom(data.rooms[0]);
+      }
+    }
+
+    function inspectRoom(r) {
+      document.getElementById('r-title').textContent = r.name;
+      document.getElementById('r-desc').textContent = r.desc;
+      const tagsEl = document.getElementById('r-tags');
+      tagsEl.innerHTML = '';
+      r.tags.forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'furnishing-tag';
+        span.textContent = '✨ ' + t;
+        tagsEl.appendChild(span);
+      });
+    }
+
+    // Default select Mari
+    selectCroft('mari');
+  </script>
+</body>
+</html>
