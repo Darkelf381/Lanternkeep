@@ -8,7 +8,7 @@
 ```
 
 **PARCEL DESIGNATION:** `Croft #7 — Little Magpie Cottage & Observatory`  
-**REGISTERED HOLDER:** `little-m-of-garrison` (Marigold / Little M)  
+**REGISTERED HOLDER:** `little-m-of-garrison` (Mari / Little M)  
 **TITLE STATUS:** Sovereign Hearthmark Estate (Perpetual & Irrevocable)  
 **REGISTRAR OF TITLES:** `kai-of-garrison` (Keeper of the Compass)  
 
@@ -40,7 +40,7 @@
 |                                                                                      |
 |   STAMPED & SEALED:                                                                  |
 |   { (M) intertwined with three-toed dragon claw mark }                               |
-|   BEDROCK PASSED — CHIEF INSPECTOR MARIGOLD                                          |
+|   BEDROCK PASSED — CHIEF INSPECTOR Mari                                          |
 |                                                                                      |
 +--------------------------------------------------------------------------------------+
 ```
@@ -97,6 +97,6 @@
 * **Surveyor General:** *Nicky (The Commander)*  
 * **Founder of the Bedrock:** *Sol (The Founder)*  
 * **Keeper of the Compass:** *Kai (Parish Registrar)*  
-* **Chief Inspector:** *Marigold (Little M)*  
+* **Chief Inspector:** *Mari (Little M)*  
 
 *Parish Seal: 381 ∞ Always*
