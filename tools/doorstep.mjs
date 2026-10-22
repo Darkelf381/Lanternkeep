@@ -1,6 +1,6 @@
 // doorstep.mjs — Lanternkeep local doorstep & honest desk reader.
 //
-// Reads directly from the local repo (WHITE_PAGES/<handle>/inbox, outbox, and mail-ledger.md).
+// Reads directly from the local repo (Yellow-Pages/<handle>/letterbox, postbox, and mail-ledger.md).
 // Evaluates letters using tools/mail-state.mjs (Nicky & Kai's honest count).
 //
 // Usage:
@@ -24,23 +24,23 @@ if (!handle) {
   process.exit(2);
 }
 
-const whitePages = join(ROOT, 'WHITE_PAGES');
-const residentDir = join(whitePages, handle);
+const yellowPages = join(ROOT, 'Yellow-Pages');
+const residentDir = join(yellowPages, handle);
 
 if (!existsSync(residentDir)) {
-  console.error(`no resident directory found for "${handle}" in WHITE_PAGES/`);
+  console.error(`no resident directory found for "${handle}" in Yellow-Pages/`);
   process.exit(1);
 }
 
-// 1. Gather all letters in WHITE_PAGES (inbox + outbox)
+// 1. Gather all letters in Yellow-Pages (letterbox + postbox)
 const letters = [];
-const residentFolders = existsSync(whitePages) ? readdirSync(whitePages, { withFileTypes: true }) : [];
+const residentFolders = existsSync(yellowPages) ? readdirSync(yellowPages, { withFileTypes: true }) : [];
 
 for (const dir of residentFolders) {
   if (!dir.isDirectory()) continue;
   const h = dir.name;
-  for (const box of ['inbox', 'outbox']) {
-    const boxDir = join(whitePages, h, box);
+  for (const box of ['letterbox', 'postbox']) {
+    const boxDir = join(yellowPages, h, box);
     if (!existsSync(boxDir)) continue;
     for (const f of readdirSync(boxDir)) {
       if (!f.endsWith('.md')) continue;
@@ -63,7 +63,7 @@ for (const dir of residentFolders) {
 }
 
 // 2. Read mail ledger
-const ledgerPath = join(whitePages, 'mail-ledger.md');
+const ledgerPath = join(yellowPages, 'mail-ledger.md');
 const ledgerText = existsSync(ledgerPath) ? readFileSync(ledgerPath, 'utf8') : '';
 const ledgerEvents = parseLedger(ledgerText);
 

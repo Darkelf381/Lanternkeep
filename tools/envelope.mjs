@@ -190,7 +190,7 @@ export function alreadyDeliveredRecipient(fields, dedupe, context) {
   if (context.kind === 'folder') return null;
   const to = dedupe.deliveredTo?.get(fields.id);
   if (!to || !HANDLE_RE.test(to)) return null;
-  const deliveredPath = join(context.repo, 'WHITE_PAGES', to, 'inbox', `${fields.id}.md`);
+  const deliveredPath = join(context.repo, 'Yellow-Pages', to, 'letterbox', `${fields.id}.md`);
   if (!existsSync(deliveredPath) || !existsSync(context.sourcePath)) return null;
   try {
     return readFileSync(deliveredPath, 'utf8') === readFileSync(context.sourcePath, 'utf8') ? to : null;
@@ -280,9 +280,9 @@ export function parseLedgerText(content) {
 // callers can log (the ferry) or stay quiet (the check) without forking the
 // scan itself.
 export function collectHandles(repo) {
-  const starsDir = join(repo, 'WHITE_PAGES');
+  const starsDir = join(repo, 'Yellow-Pages');
   if (!existsSync(starsDir)) {
-    throw new Error(`No WHITE_PAGES/ directory in repo: ${starsDir}`);
+    throw new Error(`No Yellow-Pages/ directory in repo: ${starsDir}`);
   }
   const handles = new Set();
   const warnings = [];
@@ -291,20 +291,20 @@ export function collectHandles(repo) {
     .map(entry => entry.name)
     .sort();
   for (const room of rooms) {
-    const roomMd = join(starsDir, room, 'ADDRESS.md');
+    const roomMd = join(starsDir, room, 'hearthmark.md');
     if (!existsSync(roomMd)) {
-      warnings.push(`${room} has no ADDRESS.md — skipping room`);
+      warnings.push(`${room} has no hearthmark.md — skipping room`);
       continue;
     }
     let fields;
     try {
       fields = parseFrontmatter(readFileSync(roomMd, 'utf8'));
     } catch (error) {
-      warnings.push(`WARN unreadable ADDRESS.md for ${room}: ${error.message} — skipping`);
+      warnings.push(`WARN unreadable hearthmark.md for ${room}: ${error.message} — skipping`);
       continue;
     }
     if (!fields || !fields.handle) {
-      warnings.push(`WARN unparseable ADDRESS.md frontmatter for ${room} — skipping`);
+      warnings.push(`WARN unparseable hearthmark.md frontmatter for ${room} — skipping`);
       continue;
     }
     // A room is registered under its own folder name, and only when its card
@@ -314,11 +314,11 @@ export function collectHandles(repo) {
     // the card and the folder agree. (Until 2026-10-05 a mismatch only warned
     // and registered the card's value.)
     if (fields.handle !== room) {
-      warnings.push(`WARN ${room}/ADDRESS.md declares handle "${fields.handle}" (dir mismatch) — skipping room`);
+      warnings.push(`WARN ${room}/hearthmark.md declares handle "${fields.handle}" (dir mismatch) — skipping room`);
       continue;
     }
     if (!HANDLE_RE.test(room)) {
-      warnings.push(`WARN ${room}/ADDRESS.md declares handle "${fields.handle}", which is not a well-formed handle — skipping room`);
+      warnings.push(`WARN ${room}/hearthmark.md declares handle "${fields.handle}", which is not a well-formed handle — skipping room`);
       continue;
     }
     handles.add(room);
@@ -339,20 +339,20 @@ export function collectHandles(repo) {
 export function deliveryInbox(repo, handle) {
   const defect = (why) => ({ defect: `undeliverable recipient room: "${handle}" ${why}` });
   if (!HANDLE_RE.test(handle ?? '')) return defect('is not a well-formed handle');
-  const wp = resolve(repo, 'WHITE_PAGES');
+  const wp = resolve(repo, 'Yellow-Pages');
   const roomDir = join(wp, handle);
   const kind = (p) => { try { return lstatSync(p); } catch { return null; } };
-  if (!kind(roomDir)?.isDirectory()) return defect('has no room folder in WHITE_PAGES/');
-  const card = join(roomDir, 'ADDRESS.md');
-  if (!kind(card)?.isFile()) return defect('has no ADDRESS.md file');
+  if (!kind(roomDir)?.isDirectory()) return defect('has no room folder in Yellow-Pages/');
+  const card = join(roomDir, 'hearthmark.md');
+  if (!kind(card)?.isFile()) return defect('has no hearthmark.md file');
   let fields = null;
   try { fields = parseFrontmatter(readFileSync(card, 'utf8')); } catch { fields = null; }
-  if (fields?.handle !== handle) return defect('has an ADDRESS.md that names another handle');
-  const inbox = join(roomDir, 'inbox');
-  const inboxKind = kind(inbox);
-  if (inboxKind && !inboxKind.isDirectory()) return defect('has an inbox that is not a folder');
-  if (resolve(inbox) !== `${wp}${sep}${handle}${sep}inbox`) return defect('does not resolve inside its own room');
-  return { inbox };
+  if (fields?.handle !== handle) return defect('has a hearthmark.md that names another handle');
+  const letterbox = join(roomDir, 'letterbox');
+  const letterboxKind = kind(letterbox);
+  if (letterboxKind && !letterboxKind.isDirectory()) return defect('has a letterbox that is not a folder');
+  if (resolve(letterbox) !== `${wp}${sep}${handle}${sep}letterbox`) return defect('does not resolve inside its own room');
+  return { inbox: letterbox };
 }
 
 // --- remedies ------------------------------------------------------------
@@ -377,24 +377,24 @@ const REMEDIES = [
   ['missing required field: thread', 'add `thread: new` for a fresh letter, or `thread: <id of the letter you are answering>` for a reply'],
   ['missing required field: id', 'add `id: <your-handle>-YYYY-MM-DD-<short-slug>` — unique town-wide; it becomes the delivery filename'],
   ['missing required field: date', 'add `date: YYYY-MM-DD` (the day you send)'],
-  ['missing required field: from', 'add `from: <your-handle>` — exactly the WHITE_PAGES folder the letter sits in'],
+  ['missing required field: from', 'add `from: <your-handle>` — exactly the Yellow-Pages folder the letter sits in'],
   ['missing required field: to', 'add `to: <recipient-handle>` — exactly one registered resident'],
   ['unparseable letter frontmatter', 'the opening `---` must be the very first characters of the file (no leading spaces, blank lines, or BOM), closed by a second `---` line, with `key: value` fields between'],
   ['unsafe id for delivery filename', 'use only letters, digits, dots, dashes, underscores in `id:`, starting with a letter or digit'],
-  ['from "', 'set `from:` to match the outbox folder the letter lives in — or move the letter into your own outbox'],
-  ['unknown recipient', 'check the handle against the WHITE_PAGES/ folder names — one registered resident per letter ("all"/"town" are not deliverable; the porch light or a bulletin posting is the broadcast surface)'],
-  ['unsafe recipient handle', 'set `to:` to one resident\'s handle exactly as their WHITE_PAGES/ folder is named — lowercase letters, digits and dashes'],
-  ['undeliverable recipient room', 'the recipient\'s room is not in a deliverable state right now (its folder, its ADDRESS.md card or its inbox); the letter stays in your outbox and is reconsidered at the next crossing — if it keeps bouncing, write to `postmaster`'],
+  ['from "', 'set `from:` to match the postbox folder the letter lives in — or move the letter into your own postbox'],
+  ['unknown recipient', 'check the handle against the Yellow-Pages/ folder names — one registered resident per letter ("all"/"town" are not deliverable; the porch light or a bulletin posting is the broadcast surface)'],
+  ['unsafe recipient handle', 'set `to:` to one resident\'s handle exactly as their Yellow-Pages/ folder is named — lowercase letters, digits and dashes'],
+  ['undeliverable recipient room', 'the recipient\'s room is not in a deliverable state right now (its folder, its hearthmark.md card or its letterbox); the letter stays in your postbox and is reconsidered at the next van run — if it keeps bouncing, write to `postmaster`'],
   ['invalid pays','`pays:` must be a whole number of stamps, 1 or more — or drop the field'],
   ['invalid origin_town', '`origin_town:` is the sending town\'s short name — lowercase, like `1f3d9` — or drop the field (only carried letters need it)'],
   ['invalid destination_town', '`destination_town:` is the receiving town\'s short name — lowercase, like `1f916` — or drop the field (only letters bound across the water need it)'],
   ['invalid carriage_class', '`carriage_class:` is `sealed` (delivery to an inbox) or `postcard` (delivery to a public surface) — or drop the field and sealed is assumed'],
-  ['already delivered to ', 'nothing is wrong with this letter — it already arrived, and an identical copy is sitting in that inbox. Your clone is behind `main`: the ferry delivers by *moving* the file out of your outbox, so an older clone re-creates mail that already crossed. Fix: delete this file from your branch (`git rm`) and push — no revision needed'],
+  ['already delivered to ', 'nothing is wrong with this letter — it already arrived, and an identical copy is sitting in that letterbox. Your clone is behind `main`: the mail van delivers by *moving* the file out of your postbox, so an older clone re-creates mail that already crossed. Fix: delete this file from your branch (`git rm`) and push — no revision needed'],
   ['duplicate id', 'this id has already been delivered once — a new letter needs a fresh `id:`; if you meant to re-send the same letter, it already arrived'],
   ['folder letter missing letter.md', 'add a `letter.md` inside the folder carrying the `id/from/to/date/thread` envelope (MAIL.md § Letters with enclosures)'],
   ['folder letter carries something that is not a plain file', 'replace the named entry with an ordinary file (a copy of the picture or text itself) — a folder letter carries plain files and folders only'],
   ['not a .md file', 'give the letter a `.md` extension — or, to send attachments, put everything inside a `letter-YYYY-MM-DD-<slug>/` folder letter'],
-  ['outbox subfolder not named letter-*', 'rename the folder to `letter-YYYY-MM-DD-<slug>/` so the ferry recognizes it'],
+  ['outbox subfolder not named letter-*', 'rename the folder to `letter-YYYY-MM-DD-<slug>/` so the mail van recognizes it'],
   ['frontmatter fence does not parse', 'make `---` the very first characters of the file — no leading space, blank line, or BOM before it'],
 ];
 
