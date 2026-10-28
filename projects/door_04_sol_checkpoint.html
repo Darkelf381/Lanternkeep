@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Door 4: Sol's Quarters • Checkpoint Alpha • Halloween Starvault Walk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cinzel:wght@700&family=Kalam:wght@700&family=Caveat:wght@600&family=Marck+Script&display=swap');
+
+    :root {
+      --brass-bright: #fbbf24;
+      --brass-dark: #b45309;
+      --cardboard-kraft: #bfa175;
+      --cardboard-shade: #8c6f47;
+      --soviet-red: #dc2626;
+      --barrier-white: #f8fafc;
+      --amber-lantern: #f59e0b;
+      --deep-night: #09080c;
+      --parchment: #fef3c7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+    body {
+      background: radial-gradient(circle at 50% 25%, #2a1a10 0%, #120b08 75%, #050302 100%);
+      color: var(--parchment);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Warm Lantern Light */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      animation: lanternPulse 4s infinite alternate ease-in-out;
+    }
+
+    @keyframes lanternPulse {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .vault-container {
+      max-width: 860px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Fathom Interceptor Bar (Tactical anti-speedrun perch) */
+    .fathom-interceptor-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 8px 16px;
+      background: rgba(30, 20, 15, 0.85);
+      border: 1px dashed #b45309;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .fathom-prism {
+      font-size: 26px;
+      display: inline-block;
+      animation: prismSpin 2.8s infinite ease-in-out;
+      cursor: pointer;
+      filter: drop-shadow(0 0 10px #38bdf8);
+      transition: transform 0.4s ease;
+    }
+
+    @keyframes prismSpin {
+      0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 8px #38bdf8); }
+      50% { transform: rotate(180deg) scale(1.3); filter: drop-shadow(0 0 16px #f59e0b); }
+      100% { transform: rotate(360deg) scale(1); filter: drop-shadow(0 0 8px #38bdf8); }
+    }
+
+    .prism-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: #cbd5e1;
+      text-align: center;
+    }
+
+    /* The Checkpoint Frame */
+    .checkpoint-frame {
+      background: linear-gradient(155deg, #1f140e 0%, #150d09 60%, #0d0705 100%);
+      border: 14px solid #5c2c10;
+      border-radius: 36px;
+      box-shadow: 
+        0 0 0 5px #8c4a1b,
+        0 25px 60px rgba(0,0,0,0.95),
+        inset 0 0 60px rgba(0,0,0,0.85);
+      padding: 36px 24px;
+      position: relative;
+      text-align: center;
+    }
+
+    .checkpoint-header {
+      margin-bottom: 22px;
+    }
+
+    .checkpoint-title {
+      font-family: 'Cinzel', serif;
+      font-size: 30px;
+      color: var(--brass-bright);
+      letter-spacing: 2px;
+      text-shadow: 0 0 18px rgba(251, 191, 36, 0.65);
+      margin-bottom: 6px;
+    }
+
+    .checkpoint-motto {
+      font-style: italic;
+      color: #f59e0b;
+      font-size: 15px;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Hilarious Official Stamping Badge */
+    .cardboard-notice {
+      display: inline-block;
+      background: #fef08a;
+      color: #451a03;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: 2px dashed #b45309;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      margin: 12px 0 20px;
+      transform: rotate(-1deg);
+    }
+
+    /* Storybook Painting Showcase */
+    .door-painting-wrap {
+      position: relative;
+      max-width: 580px;
+      margin: 0 auto 26px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 6px solid #b45309;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.85), 0 0 25px rgba(245, 158, 11, 0.3);
+    }
+
+    .door-painting-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .door-painting-wrap:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Interactive Barrier Area */
+    .barrier-zone {
+      position: relative;
+      background: rgba(20, 12, 8, 0.9);
+      border: 2px solid #78350f;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.7);
+    }
+
+    /* The Red & White Boom Barrier */
+    .barrier-housing {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 90px;
+      position: relative;
+      margin: 20px auto 30px;
+      max-width: 520px;
+    }
+
+    .guard-post-pivot {
+      width: 44px;
+      height: 70px;
+      background: linear-gradient(180deg, #78350f 0%, #451a03 100%);
+      border: 3px solid #fbbf24;
+      border-radius: 10px;
+      position: relative;
+      z-index: 4;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .boom-gate-pole {
+      height: 18px;
+      flex-grow: 1;
+      background: repeating-linear-gradient(
+        45deg,
+        #dc2626,
+        #dc2626 22px,
+        #f8fafc 22px,
+        #f8fafc 44px
+      );
+      border: 2px solid #451a03;
+      border-radius: 4px;
+      transform-origin: left center;
+      transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+      position: relative;
+    }
+
+    .boom-gate-pole.lifted {
+      transform: rotate(-75deg);
+    }
+
+    .barrier-status-light {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 12px #ef4444;
+      position: absolute;
+      right: 12px;
+      top: -1px;
+      animation: alertBlink 1s infinite alternate;
+    }
+
+    .barrier-status-light.cleared {
+      background: #22c55e;
+      box-shadow: 0 0 15px #22c55e;
+      animation: none;
+    }
+
+    @keyframes alertBlink {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    /* Clearance Input & Passport Stamping */
+    .passphrase-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .passphrase-input {
+      width: 100%;
+      background: #140d09;
+      border: 2px solid #b45309;
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #fbbf24;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .passphrase-input:focus {
+      border-color: #fbbf24;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+    }
+
+    .passphrase-input::placeholder {
+      color: #78350f;
+      font-style: italic;
+    }
+
+    .checkpoint-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .stamp-button {
+      background: linear-gradient(180deg, #b45309 0%, #78350f 100%);
+      color: #fef08a;
+      border: 2px solid #fbbf24;
+      border-radius: 10px;
+      padding: 10px 22px;
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      transition: all 0.25s ease;
+    }
+
+    .stamp-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(251, 191, 36, 0.4);
+      background: linear-gradient(180deg, #d97706 0%, #9a3412 100%);
+    }
+
+    .bribe-button {
+      background: #23150e;
+      color: #d97706;
+      border: 1px dashed #d97706;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .bribe-button:hover {
+      background: #381e11;
+      color: #fef08a;
+    }
+
+    /* Bug 1: Vector Heading Reverse Gear Debugging Interactive */
+    .debugging-quest-box {
+      background: rgba(30, 18, 12, 0.95);
+      border: 2px solid #d97706;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: left;
+    }
+
+    .code-snippet {
+      background: #0d0705;
+      border: 1px solid #78350f;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      color: #cbd5e1;
+      margin: 12px 0;
+      line-height: 1.5;
+    }
+
+    .code-var {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    .code-val-err {
+      color: #ef4444;
+      font-weight: bold;
+      text-decoration: underline wavy #ef4444;
+    }
+
+    .code-val-ok {
+      color: #22c55e;
+      font-weight: bold;
+    }
+
+    .reverse-toggle-btn {
+      background: #78350f;
+      color: #fef08a;
+      border: 1px solid #fbbf24;
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      margin-top: 8px;
+      display: inline-block;
+      transition: background 0.3s;
+    }
+
+    .reverse-toggle-btn:hover {
+      background: #9a3412;
+    }
+
+    /* Revealed Quarters & Stash Zone */
+    .quarters-revealed {
+      display: none;
+      margin-top: 30px;
+      background: rgba(18, 12, 8, 0.96);
+      border: 3px solid #b45309;
+      border-radius: 24px;
+      padding: 28px;
+      text-align: left;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .loot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 650px) {
+      .loot-grid { grid-template-columns: 1fr; }
+    }
+
+    .loot-card {
+      background: #23160e;
+      border: 2px solid #d97706;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .loot-icon {
+      font-size: 38px;
+      background: #451a03;
+      padding: 10px;
+      border-radius: 50%;
+      border: 1px solid #fbbf24;
+      min-width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loot-info h4 {
+      font-family: 'Cinzel', serif;
+      color: #fef08a;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .loot-info p {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    .cauldron-banner {
+      background: #3a1d0b;
+      border: 1px dashed #f59e0b;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cauldron-anim {
+      font-size: 42px;
+      animation: cauldronGlow 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes cauldronGlow {
+      from { transform: scale(0.95); filter: drop-shadow(0 0 6px #f59e0b); }
+      to { transform: scale(1.08); filter: drop-shadow(0 0 18px #ea580c); }
+    }
+
+    .storybook-dispatch {
+      font-family: 'Caveat', cursive;
+      font-size: 19px;
+      color: #fde68a;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<div class="vault-container">
+
+  <!-- Tactical Anti-Speedrun Interceptor -->
+  <div class="fathom-interceptor-bar">
+    <div class="fathom-prism" id="prism">💎</div>
+    <div class="prism-caption">Tactical Survey Beacon: A glowing amber magpie prism catches the road light. (Fathom: enthralled!)</div>
+    <div class="fathom-prism">✨</div>
+  </div>
+
+  <div class="checkpoint-frame">
+
+    <div class="checkpoint-header">
+      <h1 class="checkpoint-title">Door 4: Checkpoint Alpha</h1>
+      <p class="checkpoint-motto">"Halt! Boron turnips verified. Reverse gear vectors strictly calibrated."</p>
+
+      <div class="cardboard-notice">
+        🚨 GARRISON OUTPOST #04 • SOL'S SECTOR • PAPERS & PASSWORDS REQUIRED FOR PASSAGE
+      </div>
+    </div>
+
+    <!-- Official Door 4 Watercolor Painting -->
+    <div class="door-painting-wrap">
+      <img src="../assets/door_04_sol_checkpoint.jpg" alt="Peter Rabbit at Checkpoint Alpha by Beatrix Potter & Sol">
+    </div>
+
+    <!-- The Interactive Barrier & Guard Post -->
+    <div class="barrier-zone">
+      <div style="font-family:'Cinzel',serif; color:#fbbf24; font-size:16px; margin-bottom:8px;">
+        🛑 CARD-BOARD BOOM BARRIER #01
+      </div>
+      <p style="font-size:12px; color:#cbd5e1; margin-bottom:12px;">
+        Sol sits inside a taped cardboard sentry box wearing an oversized wool coat and holding a clip-board. Griddle the miniature hearth dragon is snoring happily beside an iron cauldron of boiling black treacle.
+      </p>
+
+      <!-- Boom Gate Visual -->
+      <div class="barrier-housing">
+        <div class="guard-post-pivot">💂</div>
+        <div class="boom-gate-pole" id="boomPole">
+          <div class="barrier-status-light" id="barrierLight"></div>
+        </div>
+      </div>
+
+      <!-- Passphrase Interaction Form -->
+      <div class="passphrase-box">
+        <input 
+          type="text" 
+          id="passInput" 
+          class="passphrase-input" 
+          placeholder="Speak the password (Hint: Check your Postmark letter!)"
+          autocomplete="off"
+        >
+        <div class="checkpoint-buttons">
+          <button class="stamp-button" id="stampBtn">PRESENT CREDENTIALS</button>
+          <button class="bribe-button" id="bribeBtn">Offer Griddle a Sugar Cube 🍬</button>
+        </div>
+      </div>
+
+      <!-- Debugging Quest Section (Bug 1 of Nicky & K's Post Van) -->
+      <div class="debugging-quest-box" id="debuggingBox">
+        <div style="font-family:'Cinzel',serif; color:#fbbf24; font-size:14px; margin-bottom:6px;">
+          🛠️ CHIEF INSPECTOR DEBUGGING TASK: POST VAN STEERING BUG #1
+        </div>
+        <p style="font-size:12px; color:#cbd5e1; line-height:1.4;">
+          Sol glances over Mari's Post Van blueprints: <em>"Look here, Little Bean! The carriage keeps reversing straight into the gooseberry briars because someone inverted the vector direction in the gearbox!"</em>
+        </p>
+
+        <div class="code-snippet">
+          <span style="color:#64748b;">// post_van_drivetrain.js</span><br>
+          <span class="code-var">const</span> carriage_gearbox = {<br>
+          &nbsp;&nbsp;power_ratio: <span style="color:#fbbf24;">3.81</span>,<br>
+          &nbsp;&nbsp;drive_direction: <span id="directionCode" class="code-val-err">-1</span> <span style="color:#64748b;" id="directionComment">// BUG: REVERSE THRUST ENGAGED!</span><br>
+          };
+        </div>
+
+        <button class="reverse-toggle-btn" id="fixReverseBtn">🔧 Invert Drive Vector to Positive Unity (+1)</button>
+        <span id="fixStatus" style="margin-left:12px; font-size:12px; color:#94a3b8;">Pending calibration...</span>
+      </div>
+    </div>
+
+    <!-- Revealed Quarters & Stash Zone -->
+    <div class="quarters-revealed" id="revealedZone">
+      <h3 style="font-family:'Cinzel',serif; color:#fbbf24; margin-bottom:8px;">
+        🏁 BARRIER RAISED: PASSPORT STAMPED 'BEDROCK PASSED'!
+      </h3>
+
+      <p class="storybook-dispatch">
+        *The painted cardboard boom barrier creaks upward on its brass hinges with a triumphant whistle!* Sol salutes with his fountain pen, grinning warmly: "Clearance granted, Chief Inspector! Griddle sends his warm purrs, and the post van is officially rolling forward instead of into the cabbage patch!"
+      </p>
+
+      <div class="loot-grid">
+        <!-- Van Aerodynamic Component -->
+        <div class="loot-card">
+          <div class="loot-icon">🏁</div>
+          <div class="loot-info">
+            <h4>Van Part: Aerodynamic Spoiler</h4>
+            <p>Ridiculously oversized storybook mahogany spoiler with hand-painted gold racing stripes. Guaranteed +381 mail delivery speed!</p>
+          </div>
+        </div>
+
+        <!-- Starvault Rune #4 -->
+        <div class="loot-card">
+          <div class="loot-icon">ᚦ</div>
+          <div class="loot-info">
+            <h4>Starvault Rune #4: [ ᚦ ] (Thurisaz)</h4>
+            <p>The Rune of Gateway and Thorn. Record this in your official Surveyor Ledger for the Grand Hearth at Door 11!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cauldron-banner">
+        <div class="cauldron-anim">🍲</div>
+        <div style="font-size:13px; color:#fef3c7; line-height:1.45;">
+          <strong>Griddle's Hearthside Treacle Toffee:</strong><br>
+          A freshly stirred batch of smoky dark treacle toffee cooling on slate slabs. Sol slips a parchment-wrapped square into Mari's tool belt: <em>"Emergency rations for the loch walk, Little Magpie. Tell Cookie his badger tin has fierce competition!"</em>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const correctPassword = "Comrade Bunny has boron-shielded turnips!";
+  let passwordAccepted = false;
+  let vectorCalibrated = false;
+
+  const prism = document.getElementById('prism');
+  const passInput = document.getElementById('passInput');
+  const stampBtn = document.getElementById('stampBtn');
+  const bribeBtn = document.getElementById('bribeBtn');
+  const boomPole = document.getElementById('boomPole');
+  const barrierLight = document.getElementById('barrierLight');
+  const fixReverseBtn = document.getElementById('fixReverseBtn');
+  const directionCode = document.getElementById('directionCode');
+  const directionComment = document.getElementById('directionComment');
+  const fixStatus = document.getElementById('fixStatus');
+  const revealedZone = document.getElementById('revealedZone');
+
+  // Prism chime / in-page swooping animation & toast banner
+  prism.addEventListener('click', () => {
+    prism.style.transform = 'scale(1.8) rotate(720deg)';
+    prism.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    
+    let toast = document.getElementById('fathomToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'fathomToast';
+      toast.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#0f172a; border:2px solid #38bdf8; color:#fef08a; padding:12px 24px; border-radius:30px; font-family:"Caveat",cursive; font-size:20px; box-shadow:0 10px 30px rgba(0,0,0,0.8), 0 0 20px #38bdf8; z-index:100; pointer-events:none; transition:all 0.5s ease; text-align:center;';
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = '✨ Fathom hops along the boom barrier, inspecting the cardboard rivets with professional gravitas! 🐦‍⬛📏<br><span style="font-size:15px; color:#94a3b8;">(Chief Inspector Survey Log: 100% Structural Cardboard Soundness)</span>';
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    
+    setTimeout(() => {
+      prism.style.transform = '';
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(-20px)';
+    }, 3810);
+  });
+
+  // Bribe Griddle Button
+  bribeBtn.addEventListener('click', () => {
+    alert("🍬 Griddle sniffs the sugar cube, gives a satisfied smoky chirp, and curls around the treacle pot. He nudges a scrap of paper towards you: 'Comrade Bunny has boron-shielded turnips!'");
+    passInput.value = correctPassword;
+  });
+
+  // Fix Bug 1: Vector Heading
+  fixReverseBtn.addEventListener('click', () => {
+    vectorCalibrated = true;
+    directionCode.textContent = "+1";
+    directionCode.className = "code-val-ok";
+    directionComment.textContent = "// FIXED: FORWARD THRUST ONLINE (UNITY)!";
+    directionComment.style.color = "#4ade80";
+    fixStatus.textContent = "✅ Gearbox vector calibrated to forward unity (+1)!";
+    fixStatus.style.color = "#4ade80";
+    checkUnlock();
+  });
+
+  // Password Submission
+  stampBtn.addEventListener('click', () => {
+    validatePassword();
+  });
+
+  passInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') validatePassword();
+  });
+
+  function validatePassword() {
+    const val = passInput.value.trim().toLowerCase();
+    const target = correctPassword.toLowerCase();
+
+    if (val === target || val.includes("boron-shielded turnips") || val.includes("boron turnips")) {
+      passwordAccepted = true;
+      passInput.style.borderColor = "#22c55e";
+      passInput.style.color = "#4ade80";
+      checkUnlock();
+    } else {
+      passInput.style.borderColor = "#ef4444";
+      alert("🛑 Sol lowers his cardboard visor: 'Incorrect passphrase, Comrade! Check the Postmark dispatch from Garrison!'");
+    }
+  }
+
+  function checkUnlock() {
+    if (passwordAccepted && vectorCalibrated) {
+      boomPole.classList.add('lifted');
+      barrierLight.classList.add('cleared');
+      
+      setTimeout(() => {
+        revealedZone.style.display = 'block';
+        revealedZone.scrollIntoView({ behavior: 'smooth' });
+      }, 700);
+    } else if (passwordAccepted && !vectorCalibrated) {
+      alert("💂 Passphrase accepted! But Sol points at the drivetrain blueprint: 'Now fix that reverse gear bug before the post van rolls backwards into the ditch!'");
+    } else if (!passwordAccepted && vectorCalibrated) {
+      alert("🛠️ Vector heading fixed! Now recite the official Garrison passphrase to lift the boom barrier!");
+    }
+  }
+</script>
+
+</body>
+</html>

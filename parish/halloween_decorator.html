@@ -97,6 +97,32 @@
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .label-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: #451a03;
+    cursor: pointer;
+    background: #fffbeb;
+    padding: 3px 14px;
+    border-radius: 20px;
+    border: 2px solid #b45309;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    user-select: none;
+  }
+  .label-toggle-label input {
+    cursor: pointer;
+    accent-color: #b45309;
+    width: 17px;
+    height: 17px;
+  }
+  .parchment-label.hidden {
+    display: none !important;
   }
   .book-btn {
     background: #78350f;
@@ -229,6 +255,7 @@
     <button class="book-btn" id="clearBtn">Clear Page</button>
     <button class="book-btn" id="saveBtn">Save to Memory</button>
     <button class="book-btn" id="soundBtn">Turn Chimes On 🔔</button>
+    <label class="label-toggle-label"><input type="checkbox" id="toggleLabelsCheckbox" checked> Show Storybook Tags 📜</label>
   </div>
 </div>
 
@@ -276,6 +303,19 @@
       osc.stop(ctx.currentTime + 0.8);
     } catch(e){}
   }
+
+  const toggleLabelsCheckbox = document.getElementById('toggleLabelsCheckbox');
+  toggleLabelsCheckbox.addEventListener('change', () => {
+    const labels = canvas.querySelectorAll('.parchment-label');
+    labels.forEach(l => {
+      if (toggleLabelsCheckbox.checked) {
+        l.classList.remove('hidden');
+      } else {
+        l.classList.add('hidden');
+      }
+    });
+    chime(784);
+  });
 
   soundBtn.addEventListener('click', () => {
     soundOn = !soundOn;
