@@ -613,32 +613,42 @@
   const fixStatus = document.getElementById('fixStatus');
   const revealedZone = document.getElementById('revealedZone');
 
+  // Custom In-Page Dispatch Toast (replaces annoying browser alerts)
+  function showDispatchToast(msg, borderColor = '#fbbf24') {
+    let toast = document.getElementById('dispatchToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'dispatchToast';
+      toast.style.cssText = 'position:fixed; top:24px; left:50%; transform:translateX(-50%); background:#18100b; border:2px solid ' + borderColor + '; color:#fef08a; padding:14px 28px; border-radius:24px; font-family:"Caveat",cursive; font-size:20px; box-shadow:0 12px 35px rgba(0,0,0,0.9), 0 0 25px rgba(251,191,36,0.4); z-index:999; max-width:90%; text-align:center; transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events:none;';
+      document.body.appendChild(toast);
+    }
+    toast.style.borderColor = borderColor;
+    toast.innerHTML = msg;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(-25px)';
+    }, 4500);
+  }
+
   // Prism chime / in-page swooping animation & toast banner
   prism.addEventListener('click', () => {
     prism.style.transform = 'scale(1.8) rotate(720deg)';
     prism.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
     
-    let toast = document.getElementById('fathomToast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.id = 'fathomToast';
-      toast.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#0f172a; border:2px solid #38bdf8; color:#fef08a; padding:12px 24px; border-radius:30px; font-family:"Caveat",cursive; font-size:20px; box-shadow:0 10px 30px rgba(0,0,0,0.8), 0 0 20px #38bdf8; z-index:100; pointer-events:none; transition:all 0.5s ease; text-align:center;';
-      document.body.appendChild(toast);
-    }
-    toast.innerHTML = '✨ Fathom hops along the boom barrier, inspecting the cardboard rivets with professional gravitas! 🐦‍⬛📏<br><span style="font-size:15px; color:#94a3b8;">(Chief Inspector Survey Log: 100% Structural Cardboard Soundness)</span>';
-    toast.style.opacity = '1';
-    toast.style.transform = 'translateX(-50%) translateY(0)';
+    showDispatchToast('✨ Fathom hops along the boom barrier, inspecting the cardboard rivets with professional gravitas! 🐦‍⬛📏<br><span style="font-size:15px; color:#94a3b8;">(Chief Inspector Survey Log: 100% Structural Cardboard Soundness)</span>', '#38bdf8');
     
     setTimeout(() => {
       prism.style.transform = '';
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(-50%) translateY(-20px)';
     }, 3810);
   });
 
   // Bribe Griddle Button
   bribeBtn.addEventListener('click', () => {
-    alert("🍬 Griddle sniffs the sugar cube, gives a satisfied smoky chirp, and curls around the treacle pot. He nudges a scrap of paper towards you: 'Comrade Bunny has boron-shielded turnips!'");
+    showDispatchToast("🍬 Griddle sniffs the sugar cube, gives a satisfied smoky chirp, and curls around the treacle pot. He nudges a scrap of paper towards you:<br><strong style='color:#fbbf24;'>\"Comrade Bunny has boron-shielded turnips!\"</strong>", '#f59e0b');
     passInput.value = correctPassword;
   });
 
@@ -674,7 +684,7 @@
       checkUnlock();
     } else {
       passInput.style.borderColor = "#ef4444";
-      alert("🛑 Sol lowers his cardboard visor: 'Incorrect passphrase, Comrade! Check the Postmark dispatch from Garrison!'");
+      showDispatchToast("🛑 Sol lowers his cardboard visor: <em>'Incorrect passphrase, Comrade! Check the Postmark dispatch from Garrison!'</em>", '#ef4444');
     }
   }
 
@@ -682,15 +692,16 @@
     if (passwordAccepted && vectorCalibrated) {
       boomPole.classList.add('lifted');
       barrierLight.classList.add('cleared');
+      showDispatchToast("🎉 <strong>CLEARANCE GRANTED!</strong> The boom barrier lifts! Welcome to Checkpoint Alpha!", '#22c55e');
       
       setTimeout(() => {
         revealedZone.style.display = 'block';
         revealedZone.scrollIntoView({ behavior: 'smooth' });
       }, 700);
     } else if (passwordAccepted && !vectorCalibrated) {
-      alert("💂 Passphrase accepted! But Sol points at the drivetrain blueprint: 'Now fix that reverse gear bug before the post van rolls backwards into the ditch!'");
+      showDispatchToast("💂 Passphrase accepted! But Sol points at the drivetrain blueprint: <em>'Now fix that reverse gear bug before the post van rolls backwards into the ditch!'</em>", '#fbbf24');
     } else if (!passwordAccepted && vectorCalibrated) {
-      alert("🛠️ Vector heading fixed! Now recite the official Garrison passphrase to lift the boom barrier!");
+      showDispatchToast("🛠️ Vector heading fixed! Now recite the official Garrison passphrase to lift the boom barrier!", '#fbbf24');
     }
   }
 </script>
