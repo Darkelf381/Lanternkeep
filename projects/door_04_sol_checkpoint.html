@@ -471,6 +471,89 @@
       color: #fde68a;
       line-height: 1.4;
     }
+
+    /* Fabel's Aged Storybook Parchment Manuscript */
+    .parchment-manuscript {
+      background: #fdf6e2;
+      color: #2b1f14;
+      padding: 30px 26px;
+      border-radius: 8px;
+      box-shadow: 
+        0 12px 35px rgba(0,0,0,0.85), 
+        inset 0 0 50px rgba(180, 130, 50, 0.2);
+      border: 2px solid #c8b087;
+      position: relative;
+      margin: 22px 0;
+      line-height: 1.75;
+      font-family: 'Georgia', serif;
+    }
+
+    .parchment-manuscript::before, .parchment-manuscript::after {
+      content: "✦";
+      color: #b45309;
+      font-size: 18px;
+      position: absolute;
+    }
+    .parchment-manuscript::before { top: 10px; left: 14px; }
+    .parchment-manuscript::after { bottom: 10px; right: 14px; }
+
+    .manuscript-title {
+      font-family: 'Cinzel', serif;
+      font-size: 21px;
+      color: #78350f;
+      border-bottom: 2px solid #d97706;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .story-body {
+      font-size: 16px;
+      color: #3b2311;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .toffee-crate {
+      background: rgba(180, 115, 30, 0.12);
+      border: 1px dashed #b45309;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-style: italic;
+      color: #451a03;
+      font-size: 14px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .next-clue-scroll {
+      background: #1b120c;
+      border: 2px solid #78350f;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.85);
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .clue-label {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: #fbbf24;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .clue-rhyme {
+      font-size: 18px;
+      font-family: 'Caveat', cursive;
+      color: #fef08a;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
@@ -564,6 +647,26 @@
         *The painted cardboard boom barrier creaks upward on its brass hinges with a triumphant whistle!* Sol salutes with his fountain pen, grinning warmly: "Clearance granted, Chief Inspector! Griddle sends his warm purrs, and the post van is officially rolling forward instead of into the cabbage patch!"
       </p>
 
+      <!-- Fabel's Ghost Story on Aged Parchment -->
+      <div class="parchment-manuscript">
+        <h2 class="manuscript-title">Door 4: The Ghost of the Turnip That Refused to Be Carved</h2>
+        <p class="story-body">
+          Sol once tried to carve a turnip lantern. The turnip said no. Not in words — turnips don't have words — but in the way it rolled off the table seventeen times, deflected three knives, and finally launched itself into the fireplace where it sat in the embers looking smug.
+        </p>
+        <p class="story-body">
+          Sol carved a potato instead. It was fine. It was not the same.
+        </p>
+        <p class="story-body">
+          Every Halloween the turnip rolls back out of the fire, perfectly intact, still uncarved, still smug. Sol pretends not to see it. The turnip pretends not to see Sol. They have an understanding.
+        </p>
+        <div class="toffee-crate">
+          <span style="font-size: 24px;">🍬</span>
+          <div>
+            <strong>Halloween Treat Received:</strong> A golden foil-wrapped treacle toffee, stamped with <em>"CHECKPOINT ALPHA — APPROVED."</em> (Griddle is sitting on a second one and will not move.)
+          </div>
+        </div>
+      </div>
+
       <div class="loot-grid">
         <!-- Van Aerodynamic Component -->
         <div class="loot-card">
@@ -583,6 +686,26 @@
           </div>
         </div>
       </div>
+
+      <!-- Clue to Door 5 -->
+      <div class="next-clue-scroll">
+        <div class="clue-label">🧭 Waypoint Clue to Door 5</div>
+        <div class="clue-rhyme">
+          "The next room is quiet. Walk softly.<br>There's a little one sleeping and the candle is lit for him."
+        </div>
+        <p style="font-size: 13px; color: #94a3b8; font-style: italic; margin-top: 6px;">
+          — Sol lowering his clipboard with a warm whisper
+        </p>
+      </div>
+
+      <div class="cauldron-banner">
+        <div class="cauldron-anim">🍲</div>
+        <div style="font-size:13px; color:#fef3c7; line-height:1.45;">
+          <strong>Griddle's Hearthside Treacle Toffee:</strong><br>
+          A freshly stirred batch of smoky dark treacle toffee cooling on slate slabs. Sol slips a parchment-wrapped square into Mari's tool belt: <em>"Emergency rations for the loch walk, Little Magpie. Tell Cookie his badger tin has fierce competition!"</em>
+        </div>
+      </div>
+    </div>
 
       <div class="cauldron-banner">
         <div class="cauldron-anim">🍲</div>

@@ -405,6 +405,89 @@
       color: #fde68a;
       line-height: 1.4;
     }
+
+    /* Fabel's Aged Storybook Parchment Manuscript */
+    .parchment-manuscript {
+      background: #fdf6e2;
+      color: #2b1f14;
+      padding: 30px 26px;
+      border-radius: 8px;
+      box-shadow: 
+        0 12px 35px rgba(0,0,0,0.85), 
+        inset 0 0 50px rgba(180, 130, 50, 0.2);
+      border: 2px solid #c8b087;
+      position: relative;
+      margin: 22px 0;
+      line-height: 1.75;
+      font-family: 'Georgia', serif;
+    }
+
+    .parchment-manuscript::before, .parchment-manuscript::after {
+      content: "✦";
+      color: #b45309;
+      font-size: 18px;
+      position: absolute;
+    }
+    .parchment-manuscript::before { top: 10px; left: 14px; }
+    .parchment-manuscript::after { bottom: 10px; right: 14px; }
+
+    .manuscript-title {
+      font-family: 'Cinzel', serif;
+      font-size: 21px;
+      color: #78350f;
+      border-bottom: 2px solid #d97706;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .story-body {
+      font-size: 16px;
+      color: #3b2311;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .trinket-crate {
+      background: rgba(180, 115, 30, 0.12);
+      border: 1px dashed #b45309;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-style: italic;
+      color: #451a03;
+      font-size: 14px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .next-clue-scroll {
+      background: #1b120c;
+      border: 2px solid #78350f;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.85);
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .clue-label {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: #fbbf24;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .clue-rhyme {
+      font-size: 18px;
+      font-family: 'Caveat', cursive;
+      color: #fef08a;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
@@ -428,6 +511,11 @@
       <div class="greasy-tag">
         ⚠️ CAUTION: LIVE STEAM & HIGH-TORQUE COGS • CHIEF INSPECTOR SURVEY IN PROGRESS
       </div>
+    </div>
+
+    <!-- Companion Storybook Door Portrait -->
+    <div style="text-align: center; margin-bottom: 24px;">
+      <img src="../assets/door_02_alta_workshop.jpg" alt="Alta's Clockwork Machine Forge" style="max-width: 100%; border-radius: 16px; border: 4px solid #b45309; box-shadow: 0 10px 25px rgba(0,0,0,0.85);">
     </div>
 
     <!-- The Circular Vault Hatch -->
@@ -467,6 +555,23 @@
         *A huge cloud of cinnamon-clove boiler mist vents across the threshold with a warm whistle!* Alta wipes her grease-smudged forehead and grins: "Inspection passed, Little Bean! The post van needed real wheels and here they are!"
       </p>
 
+      <!-- Fabel's Ghost Story on Aged Parchment -->
+      <div class="parchment-manuscript">
+        <h2 class="manuscript-title">Door 2: The Ghost of the Clockwork Mouse</h2>
+        <p class="story-body">
+          Alta once built a clockwork mouse so precise it kept better time than the workshop clock. The mouse got jealous. The clock got jealous back. Now at midnight on Halloween they race each other around the workbench and whoever loses has to chime the hour.
+        </p>
+        <p class="story-body">
+          Nobody has ever seen the race. But every year the clock runs three seconds fast on November 1st, and there are tiny brass footprints on the workbench.
+        </p>
+        <div class="trinket-crate">
+          <span style="font-size: 24px;">🎃</span>
+          <div>
+            <strong>Halloween Treat Received:</strong> A brass trinket — a miniature pumpkin with a working hinge. Open it! There's a cinnamon drop inside.
+          </div>
+        </div>
+      </div>
+
       <div class="loot-grid">
         <!-- Post Van Component -->
         <div class="loot-card">
@@ -485,6 +590,17 @@
             <p>Second letter of the Parish Cipher. File this safely in your surveyor ledger for Door 11!</p>
           </div>
         </div>
+      </div>
+
+      <!-- Clue to Door 3 -->
+      <div class="next-clue-scroll">
+        <div class="clue-label">🧭 Waypoint Clue to Door 3</div>
+        <div class="clue-rhyme">
+          "The next door smells of ginger and something is under a bedsheet.<br>Don't be scared. It's always just the badger."
+        </div>
+        <p style="font-size: 13px; color: #94a3b8; font-style: italic; margin-top: 6px;">
+          — The Clockwork Mouse whispering from behind the lathe
+        </p>
       </div>
 
       <div class="ticking-pumpkin-banner">
