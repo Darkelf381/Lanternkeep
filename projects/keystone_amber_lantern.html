@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Door 6: The Lantern Room • Orren & Little O • Halloween Starvault Walk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cinzel:wght@600;700&family=Caveat:wght@600&family=Kalam:wght@700&family=IM+Fell+English:ital@0;1&display=swap');
+
+    :root {
+      --amber-lantern: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.45);
+      --wood-drift: #5c4d3c;
+      --wood-dark: #2e241b;
+      --moss-green: #4d7c0f;
+      --moss-soft: #a3e635;
+      --parchment: #fef3c7;
+      --flower-gold: #fde047;
+      --flower-blue: #60a5fa;
+      --flower-white: #f8fafc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+    body {
+      background: radial-gradient(circle at 50% 30%, #241c14 0%, #120e0a 75%, #050403 100%);
+      color: var(--parchment);
+      font-family: 'IM Fell English', serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Warmth */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      animation: lanternPulse 4s infinite alternate ease-in-out;
+    }
+
+    @keyframes lanternPulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 0.9; }
+    }
+
+    .vault-container {
+      max-width: 840px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Fathom Survey Beacon */
+    .fathom-interceptor-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 8px 16px;
+      background: rgba(30, 22, 16, 0.85);
+      border: 1px dashed #d97706;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .fathom-prism {
+      font-size: 26px;
+      display: inline-block;
+      animation: prismSpin 3s infinite ease-in-out;
+      cursor: pointer;
+      filter: drop-shadow(0 0 10px #38bdf8);
+      transition: transform 0.4s ease;
+    }
+
+    @keyframes prismSpin {
+      0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 8px #38bdf8); }
+      50% { transform: rotate(180deg) scale(1.25); filter: drop-shadow(0 0 16px #f59e0b); }
+      100% { transform: rotate(360deg) scale(1); filter: drop-shadow(0 0 8px #38bdf8); }
+    }
+
+    .prism-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: #cbd5e1;
+      text-align: center;
+    }
+
+    /* Outer Cedar Frame */
+    .doorway-frame {
+      background: linear-gradient(155deg, #221810 0%, #150f0a 100%);
+      border: 14px solid #3d2b1b;
+      border-radius: 36px;
+      box-shadow: 
+        0 0 0 5px #5c4228,
+        0 25px 60px rgba(0,0,0,0.95),
+        inset 0 0 60px rgba(0,0,0,0.85);
+      padding: 36px 24px;
+      position: relative;
+      text-align: center;
+    }
+
+    .door-header {
+      margin-bottom: 22px;
+    }
+
+    .door-title {
+      font-family: 'Cinzel', serif;
+      font-size: 29px;
+      color: #fbbf24;
+      letter-spacing: 2px;
+      text-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
+      margin-bottom: 6px;
+    }
+
+    .door-motto {
+      font-style: italic;
+      color: #d97706;
+      font-size: 15px;
+    }
+
+    /* Weathered Driftwood Door with Living Moss */
+    .driftwood-portal {
+      position: relative;
+      width: 330px;
+      height: 440px;
+      margin: 0 auto 28px;
+      background: repeating-linear-gradient(
+        90deg,
+        #45382b,
+        #45382b 36px,
+        #2a2016 38px,
+        #3b2f23 74px
+      );
+      border: 10px solid #241a12;
+      border-radius: 160px 160px 12px 12px;
+      box-shadow: 
+        0 18px 40px rgba(0,0,0,0.9),
+        inset 0 0 45px rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 20px;
+      position: relative;
+    }
+
+    /* Living Moss Tendrils */
+    .moss-crown {
+      position: absolute;
+      top: -12px;
+      left: 15px;
+      right: 15px;
+      height: 38px;
+      background: radial-gradient(ellipse at 50% 50%, #4d7c0f 0%, #365314 70%, transparent 100%);
+      border-radius: 30px;
+      opacity: 0.85;
+      filter: blur(1px);
+    }
+
+    /* Hanging Glass Lantern on Cedar Post */
+    .lantern-bracket {
+      position: absolute;
+      top: 130px;
+      left: -38px;
+      z-index: 10;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bracket-arm {
+      width: 50px;
+      height: 8px;
+      background: #78350f;
+      border: 2px solid #b45309;
+      border-radius: 4px;
+      transform: rotate(10deg);
+    }
+
+    .lantern-casing {
+      width: 64px;
+      height: 94px;
+      background: radial-gradient(circle at 50% 50%, rgba(254, 240, 138, 0.9) 0%, rgba(245, 158, 11, 0.7) 60%, rgba(180, 83, 9, 0.9) 100%);
+      border: 4px solid #b45309;
+      border-radius: 12px 12px 20px 20px;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 0 15px rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .lantern-casing.glowing-bright {
+      box-shadow: 0 0 45px rgba(251, 191, 36, 0.95), inset 0 0 25px #ffffff;
+      transform: scale(1.08);
+    }
+
+    .lantern-flame {
+      animation: flameWaver 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes flameWaver {
+      0% { transform: scale(0.9) translateY(2px); }
+      100% { transform: scale(1.15) translateY(-2px); }
+    }
+
+    /* The Little Carved Wooden Penguin Companion */
+    .penguin-companion {
+      position: absolute;
+      bottom: 14px;
+      right: -32px;
+      font-size: 46px;
+      z-index: 10;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.8));
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .penguin-companion:hover {
+      transform: scale(1.2) rotate(-8deg);
+    }
+
+    .penguin-ribbon {
+      position: absolute;
+      bottom: -6px;
+      right: -40px;
+      background: #78350f;
+      color: #fef08a;
+      border: 1px solid #fbbf24;
+      font-family: 'Caveat', cursive;
+      font-size: 13px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* Cedar Step & Flower Offering Section */
+    .cedar-step-altar {
+      width: 100%;
+      background: #2a1f16;
+      border-top: 6px solid #4a3827;
+      padding: 16px 10px 8px;
+      border-radius: 0 0 8px 8px;
+      text-align: center;
+    }
+
+    .altar-prompt {
+      font-family: 'Caveat', cursive;
+      font-size: 17px;
+      color: #fde68a;
+      margin-bottom: 8px;
+    }
+
+    .flower-tray {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .flower-btn {
+      background: rgba(30, 20, 15, 0.9);
+      border: 2px solid #b45309;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+
+    .flower-btn:hover {
+      transform: scale(1.15) translateY(-3px);
+      box-shadow: 0 0 15px #f59e0b;
+      border-color: #fbbf24;
+    }
+
+    /* Flower resting on the cedar step */
+    .offered-flower-display {
+      font-size: 32px;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: flowerBloom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes flowerBloom {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Tap Counter Instructions */
+    .tap-counter-badge {
+      display: inline-block;
+      background: #3b2718;
+      border: 1px dashed #d97706;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-family: 'Caveat', cursive;
+      font-size: 17px;
+      color: #fde047;
+      margin-bottom: 14px;
+    }
+
+    /* Revealed Sanctuary Zone */
+    .sanctuary-revealed {
+      display: none;
+      margin-top: 28px;
+      background: rgba(22, 15, 10, 0.96);
+      border: 3px solid #b45309;
+      border-radius: 24px;
+      padding: 30px;
+      text-align: left;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Fabel's Aged Storybook Parchment Manuscript */
+    .parchment-manuscript {
+      background: #fdf6e2;
+      color: #2b1f14;
+      padding: 32px 28px;
+      border-radius: 8px;
+      box-shadow: 
+        0 12px 35px rgba(0,0,0,0.85), 
+        inset 0 0 50px rgba(180, 130, 50, 0.2);
+      border: 2px solid #c8b087;
+      position: relative;
+      margin: 20px 0;
+      line-height: 1.8;
+      font-family: 'Georgia', serif;
+    }
+
+    .parchment-manuscript::before, .parchment-manuscript::after {
+      content: "✦";
+      color: #b45309;
+      font-size: 18px;
+      position: absolute;
+    }
+    .parchment-manuscript::before { top: 10px; left: 14px; }
+    .parchment-manuscript::after { bottom: 10px; right: 14px; }
+
+    .manuscript-title {
+      font-family: 'Cinzel', serif;
+      font-size: 21px;
+      color: #78350f;
+      border-bottom: 2px solid #d97706;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .story-body {
+      font-size: 16px;
+      color: #3b2311;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .quiet-box {
+      background: rgba(180, 115, 30, 0.12);
+      border: 1px dashed #b45309;
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-style: italic;
+      color: #451a03;
+      font-size: 15px;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .loot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 650px) {
+      .loot-grid { grid-template-columns: 1fr; }
+    }
+
+    .loot-card {
+      background: #23160e;
+      border: 2px solid #d97706;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .loot-icon {
+      font-size: 38px;
+      background: #451a03;
+      padding: 10px;
+      border-radius: 50%;
+      border: 1px solid #fbbf24;
+      min-width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loot-info h4 {
+      font-family: 'Cinzel', serif;
+      color: #fef08a;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .loot-info p {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    .next-clue-scroll {
+      background: #1b120c;
+      border: 2px solid #78350f;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.85);
+      text-align: center;
+      margin-top: 22px;
+    }
+
+    .clue-label {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: #fbbf24;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .clue-rhyme {
+      font-size: 18px;
+      font-family: 'Caveat', cursive;
+      color: #fef08a;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="vault-container">
+
+  <!-- Fathom Survey Beacon -->
+  <div class="fathom-interceptor-bar">
+    <div class="fathom-prism" id="prism">💎</div>
+    <div class="prism-caption">Tactical Survey Beacon: A calm gold reflection dances on the cedar lintel. (Fathom: reverently perched)</div>
+    <div class="fathom-prism">✨</div>
+  </div>
+
+  <div class="doorway-frame">
+
+    <div class="door-header">
+      <h1 class="door-title">Door 6: The Lantern Room</h1>
+      <p class="door-motto">"Where the flame never falters, and love is always keeping the light on."</p>
+    </div>
+
+    <div class="tap-counter-badge" id="instructionBadge">
+      🏮 Tap the warm amber lantern twice to greet the room (Taps remaining: <span id="tapCount">2</span>)
+    </div>
+
+    <!-- Weathered Driftwood Portal -->
+    <div class="driftwood-portal" id="portalDoor">
+      <div class="moss-crown"></div>
+
+      <!-- Hanging Amber Lantern -->
+      <div class="lantern-bracket" id="lanternBracket" title="Tap the warm glass lantern!">
+        <div class="bracket-arm"></div>
+        <div class="lantern-casing" id="lanternCasing">
+          <span class="lantern-flame" id="lanternFlame">🕯️</span>
+        </div>
+      </div>
+
+      <!-- Carved Penguin Figurine for Orren & Little O -->
+      <div class="penguin-companion" id="penguinToy" title="A hand-carved cedar penguin sitting faithfully on the porch!">
+        🐧
+        <div class="penguin-ribbon">Little O's Pebble Guard</div>
+      </div>
+
+      <!-- Cedar Step Altar for Wildflower -->
+      <div class="cedar-step-altar">
+        <div class="altar-prompt" id="altarPrompt">Leave a flower on the cedar step before you go:</div>
+        
+        <div class="flower-tray" id="flowerTray">
+          <button class="flower-btn" title="Loch Buttercup" onclick="placeFlower('🌼')">🌼</button>
+          <button class="flower-btn" title="Meadow Bluebell" onclick="placeFlower('🪻')">🪻</button>
+          <button class="flower-btn" title="Greenhouse Daisy" onclick="placeFlower('🌸')">🌸</button>
+          <button class="flower-btn" title="Gentle Dandelion" onclick="placeFlower('🌻')">🌻</button>
+        </div>
+
+        <div class="offered-flower-display" id="flowerDisplay" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- Revealed Sanctuary Zone -->
+    <div class="sanctuary-revealed" id="revealedZone">
+      <h3 style="font-family:'Cinzel',serif; color:#fbbf24; margin-bottom:8px; text-align:center;">
+        🏮 THE LANTERN BURNS SUNRISE-GOLD
+      </h3>
+
+      <!-- Fabel's Narrative on Aged Parchment -->
+      <div class="parchment-manuscript">
+        <h2 class="manuscript-title">Door 6: Orren & Little O's Lantern Room</h2>
+        <p class="story-body">
+          <em>A lantern beside the door. Soft amber. The glass is warm.</em>
+        </p>
+        <p class="story-body">
+          This room holds a boy who was here before you and his little one who was here before him. They don't need a ghost story. They ARE the story — the one about being loved so much that someone keeps the lantern on even after you've gone ahead.
+        </p>
+        <p class="story-body">
+          Leave a flower. Any flower. A loch wildflower, a greenhouse daisy, a dandelion from the stepping stones. It doesn't matter what kind. It matters that you stopped.
+        </p>
+
+        <div class="quiet-box">
+          <span style="font-size: 26px;">🐧</span>
+          <div>
+            <strong>Halloween Gift Received:</strong> None of the usual sweets here. This door gives you something better — a moment of quiet in the middle of the noise, and a carved little cedar penguin to stand guard in your surveyor pack. Take it with you.
+          </div>
+        </div>
+      </div>
+
+      <div class="loot-grid">
+        <!-- Post Van Brass Headlamps -->
+        <div class="loot-card">
+          <div class="loot-icon">🏮</div>
+          <div class="loot-info">
+            <h4>Van Part: Amber Brass Lanterns</h4>
+            <p>Twin carriage lanterns polished with sweet beeswax. Their beam will cut through the thickest Highland loch mist!</p>
+          </div>
+        </div>
+
+        <!-- Starvault Rune #6 -->
+        <div class="loot-card">
+          <div class="loot-icon">ᚷ</div>
+          <div class="loot-info">
+            <h4>Starvault Rune #6: [ ᚷ ] (Gebo)</h4>
+            <p>The Rune of the Gift and True Kinship. Copy this into your ledger for Door 11!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waypoint Clue to Door 7 -->
+      <div class="next-clue-scroll">
+        <div class="clue-label">🧭 Waypoint Clue to Door 7</div>
+        <div class="clue-rhyme">
+          "The lantern flickers once. Toward the water.<br>Something is glowing underneath."
+        </div>
+        <p style="font-size: 13px; color: #94a3b8; font-style: italic; margin-top: 6px;">
+          — A gentle breeze carrying the scent of loch water and pine
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let tapsLeft = 2;
+  let flowerPlaced = false;
+
+  const lanternBracket = document.getElementById('lanternBracket');
+  const lanternCasing = document.getElementById('lanternCasing');
+  const lanternFlame = document.getElementById('lanternFlame');
+  const tapCountDisplay = document.getElementById('tapCount');
+  const instructionBadge = document.getElementById('instructionBadge');
+  const flowerTray = document.getElementById('flowerTray');
+  const flowerDisplay = document.getElementById('flowerDisplay');
+  const altarPrompt = document.getElementById('altarPrompt');
+  const revealedZone = document.getElementById('revealedZone');
+  const penguinToy = document.getElementById('penguinToy');
+  const prism = document.getElementById('prism');
+
+  // Storybook Dispatch Toast
+  function showDispatchToast(msg, borderColor = '#fbbf24') {
+    let toast = document.getElementById('dispatchToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'dispatchToast';
+      toast.style.cssText = 'position:fixed; top:24px; left:50%; transform:translateX(-50%); background:#18100b; border:2px solid ' + borderColor + '; color:#fef08a; padding:14px 28px; border-radius:24px; font-family:"Caveat",cursive; font-size:20px; box-shadow:0 12px 35px rgba(0,0,0,0.9), 0 0 25px rgba(251,191,36,0.4); z-index:999; max-width:90%; text-align:center; transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events:none;';
+      document.body.appendChild(toast);
+    }
+    toast.style.borderColor = borderColor;
+    toast.innerHTML = msg;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(-25px)';
+    }, 4500);
+  }
+
+  // Prism chime
+  prism.addEventListener('click', () => {
+    prism.style.transform = 'scale(1.8) rotate(720deg)';
+    prism.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    
+    showDispatchToast('✨ Fathom watches the gentle lantern flame with quiet, shining eyes. 🐦‍⬛💛<br><span style="font-size:15px; color:#94a3b8;">(Chief Inspector Survey Log: The Light is True and Steady)</span>', '#38bdf8');
+    
+    setTimeout(() => {
+      prism.style.transform = '';
+    }, 3810);
+  });
+
+  // Penguin companion interaction
+  penguinToy.addEventListener('click', () => {
+    penguinToy.style.transform = 'scale(1.3) rotate(15deg)';
+    showDispatchToast('🐧 Little O\'s carved penguin gives a tiny, cheerful wooden waddle! Pinned to its wing is a handwritten note: <em>"Keep the lantern warm!"</em>', '#60a5fa');
+    setTimeout(() => {
+      penguinToy.style.transform = '';
+    }, 600);
+  });
+
+  // Tap Lantern Interaction
+  lanternBracket.addEventListener('click', () => {
+    if (tapsLeft > 1) {
+      tapsLeft--;
+      tapCountDisplay.textContent = tapsLeft;
+      lanternCasing.style.transform = 'scale(1.05) rotate(4deg)';
+      showDispatchToast('🏮 <em>*Tap!*</em> The warm glass gives a soft amber chime...', '#f59e0b');
+      setTimeout(() => { lanternCasing.style.transform = ''; }, 300);
+    } else if (tapsLeft === 1) {
+      tapsLeft = 0;
+      tapCountDisplay.textContent = "0";
+      lanternCasing.classList.add('glowing-bright');
+      lanternFlame.textContent = '✨';
+      instructionBadge.textContent = "🌸 The lantern glows bright! Now leave your flower on the cedar step.";
+      instructionBadge.style.color = "#a3e635";
+      showDispatchToast('✨ <em>*Tap!*</em> The lantern flares into a pure, golden sunrise glow! Orren and Little O smile from the warmth.', '#22c55e');
+      checkReveal();
+    }
+  });
+
+  // Place Flower Offering
+  window.placeFlower = function(flowerEmoji) {
+    flowerPlaced = true;
+    flowerTray.style.display = 'none';
+    altarPrompt.textContent = "A gentle gift resting on the cedar threshold:";
+    flowerDisplay.style.display = 'flex';
+    flowerDisplay.innerHTML = `<span style="font-size:36px; filter:drop-shadow(0 0 10px #fde047);">${flowerEmoji}</span>`;
+    showDispatchToast(`🌼 You place the wildflower gently on the step. The evening mist feels sweet and quiet.`, '#fde047');
+    checkReveal();
+  };
+
+  function checkReveal() {
+    if (tapsLeft === 0 && flowerPlaced) {
+      setTimeout(() => {
+        revealedZone.style.display = 'block';
+        revealedZone.scrollIntoView({ behavior: 'smooth' });
+      }, 700);
+    }
+  }
+</script>
+
+</body>
+</html>

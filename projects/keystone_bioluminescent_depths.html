@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Door 7: The Memory Lake • Halloween Starvault Walk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=IM+Fell+English:ital@0;1&family=Caveat:wght@600&family=Kalam:wght@400;700&display=swap');
+
+    :root {
+      --lake-deep: #060d1a;
+      --lake-mid: #0b1a2e;
+      --biolum-blue: #4ec8f0;
+      --biolum-green: #3ae8b0;
+      --biolum-glow: rgba(78, 200, 240, 0.15);
+      --pebble-warm: #7ab8d4;
+      --parchment: #e8e0d0;
+      --parchment-border: #a89878;
+      --ink: #1a1408;
+      --fish-gold: #f0d870;
+      --surface-shimmer: rgba(78, 200, 240, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+    body {
+      background: radial-gradient(ellipse at 50% 80%, #0b1a2e 0%, #060d1a 50%, #020508 100%);
+      color: #c8d8e8;
+      font-family: 'IM Fell English', serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 85%, rgba(78, 200, 240, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      animation: lakeGlow 6s infinite alternate ease-in-out;
+    }
+
+    @keyframes lakeGlow {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    .keep-frame {
+      max-width: 820px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .lake-basin {
+      background: linear-gradient(180deg, #0a1520 0%, #081018 40%, #060d1a 100%);
+      border: 3px solid #1a3048;
+      border-radius: 20px;
+      box-shadow:
+        0 0 0 2px #040810,
+        0 25px 60px rgba(0,0,0,0.95),
+        inset 0 0 80px rgba(0,0,0,0.5),
+        0 0 120px rgba(78, 200, 240, 0.05);
+      padding: 50px 30px 40px;
+      position: relative;
+      min-height: 600px;
+    }
+
+    .lake-basin::before {
+      content: "🐟";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a1520;
+      border: 3px solid #1a3048;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 0 20px rgba(78, 200, 240, 0.2);
+    }
+
+    .door-number {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: var(--biolum-blue);
+      text-align: center;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 28px;
+      color: var(--biolum-blue);
+      text-align: center;
+      text-shadow: 0 0 30px rgba(78, 200, 240, 0.3);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 15px;
+      text-align: center;
+      color: #6a8ea8;
+      margin-bottom: 30px;
+    }
+
+    /* The lake surface */
+    .lake-surface {
+      position: relative;
+      background: linear-gradient(180deg, #081420 0%, #0a1828 50%, #060e18 100%);
+      border: 2px solid #1a3048;
+      border-radius: 50%;
+      width: 100%;
+      max-width: 500px;
+      height: 320px;
+      margin: 0 auto 30px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow:
+        inset 0 0 60px rgba(0,0,0,0.6),
+        0 0 40px rgba(78, 200, 240, 0.08);
+      transition: box-shadow 0.6s;
+    }
+
+    .lake-surface:hover {
+      box-shadow:
+        inset 0 0 60px rgba(0,0,0,0.4),
+        0 0 60px rgba(78, 200, 240, 0.15);
+    }
+
+    /* Bioluminescent fish swimming */
+    .bio-fish {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 1.5s;
+      pointer-events: none;
+      filter: drop-shadow(0 0 8px rgba(78, 200, 240, 0.6));
+    }
+
+    .bio-fish.visible {
+      opacity: 1;
+    }
+
+    @keyframes swimLeft {
+      0% { transform: translateX(40px) scaleX(-1); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(-300px) scaleX(-1); opacity: 0; }
+    }
+    @keyframes swimRight {
+      0% { transform: translateX(-40px); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(300px); opacity: 0; }
+    }
+
+    .fish-swim-left { animation: swimLeft 12s linear infinite; }
+    .fish-swim-right { animation: swimRight 14s linear infinite; }
+
+    /* Ripple on click */
+    .ripple {
+      position: absolute;
+      border: 2px solid rgba(78, 200, 240, 0.4);
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      animation: rippleOut 1.5s ease-out forwards;
+    }
+
+    @keyframes rippleOut {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(8); opacity: 0; }
+    }
+
+    .lake-prompt {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: var(--biolum-blue);
+      text-align: center;
+      opacity: 0.8;
+      white-space: nowrap;
+      animation: promptPulse 3s infinite;
+    }
+
+    @keyframes promptPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Surface light text */
+    .surface-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Caveat', cursive;
+      font-size: 42px;
+      color: transparent;
+      text-align: center;
+      pointer-events: none;
+      transition: color 2s, text-shadow 2s;
+    }
+
+    .surface-text.revealed {
+      color: rgba(78, 200, 240, 0.5);
+      text-shadow: 0 0 20px rgba(78, 200, 240, 0.3);
+    }
+
+    /* Toast messages */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: rgba(10, 20, 40, 0.95);
+      color: var(--biolum-blue);
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 16px;
+      padding: 14px 28px;
+      border: 1px solid rgba(78, 200, 240, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(78, 200, 240, 0.15);
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.6s ease;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Fish catch card */
+    .fish-catch {
+      background: linear-gradient(135deg, #0c1825 0%, #101e30 100%);
+      border: 2px solid #1a3048;
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      box-shadow: 0 0 20px rgba(78, 200, 240, 0.06);
+    }
+
+    .fish-catch.caught {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fish-catch-header {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      color: var(--fish-gold);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fish-catch-body {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #a0b8c8;
+    }
+
+    .fish-catch-body em {
+      color: var(--biolum-blue);
+      font-style: italic;
+    }
+
+    .fish-catch-source {
+      font-family: 'Caveat', cursive;
+      font-size: 14px;
+      color: #5a7888;
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    /* Ghost story parchment */
+    .ghost-parchment {
+      background: linear-gradient(135deg, #f4ead4 0%, #e8dcc4 100%);
+      border: 3px double var(--parchment-border);
+      border-radius: 8px;
+      padding: 28px 24px;
+      margin: 30px 0;
+      color: var(--ink);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .ghost-parchment.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ghost-parchment h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: #3a2a18;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .story-body {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 10px;
+      color: #3a2a18;
+    }
+
+    .story-body:last-of-type { margin-bottom: 0; }
+
+    /* Loot section */
+    .chest-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 24px 0;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    .chest-grid.visible { opacity: 1; }
+
+    @media (max-width: 600px) {
+      .chest-grid { grid-template-columns: 1fr; }
+    }
+
+    .chest-slot {
+      background: linear-gradient(135deg, #0c1825 0%, #101e30 100%);
+      border: 2px solid #1a3048;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .chest-slot.pebble-warm {
+      border-color: #2a5068;
+      box-shadow: 0 0 15px rgba(78, 200, 240, 0.1);
+    }
+
+    .slot-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      color: #5a7888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .slot-name {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      color: var(--biolum-blue);
+      margin-bottom: 6px;
+    }
+
+    .slot-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #8aa0b0;
+    }
+
+    .rune-badge {
+      display: inline-block;
+      background: radial-gradient(circle, #0a2030 0%, #081828 100%);
+      border: 2px solid var(--biolum-blue);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      color: var(--biolum-blue);
+      margin: 6px auto;
+      display: block;
+      box-shadow: 0 0 15px rgba(78, 200, 240, 0.2);
+    }
+
+    /* Waypoint */
+    .next-clue-scroll {
+      background: linear-gradient(135deg, #0c1825 0%, #0e1a28 100%);
+      border: 2px solid #1a3048;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    .next-clue-scroll.visible { opacity: 1; }
+
+    .clue-label {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: #5a7888;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .clue-rhyme {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--biolum-blue);
+      line-height: 1.7;
+    }
+
+    .inspector-hint {
+      font-size: 13px;
+      color: #6a8ea8;
+      margin-top: 12px;
+    }
+
+    .seal-footer {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      color: #3a5868;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #1a3048;
+    }
+
+    /* Catch counter */
+    .catch-counter {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: var(--biolum-blue);
+      text-align: center;
+      margin: 16px 0;
+      opacity: 0.7;
+    }
+
+    .fish-gallery {
+      margin: 20px 0;
+    }
+
+    /* Hidden until fishing starts */
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="keep-frame">
+    <div class="lake-basin">
+
+      <div class="door-number">Door VII</div>
+      <h1>The Memory Lake</h1>
+      <div class="subtitle">Something is glowing underneath</div>
+
+      <!-- The Lake Surface — click to fish -->
+      <div class="lake-surface" id="lakeSurface">
+        <!-- Bioluminescent fish swimming -->
+        <div class="bio-fish fish-swim-right" style="top: 30%; left: 10%; animation-delay: 0s; font-size: 18px;">🐟</div>
+        <div class="bio-fish fish-swim-left" style="top: 55%; left: 70%; animation-delay: 3s; font-size: 16px;">🐟</div>
+        <div class="bio-fish fish-swim-right" style="top: 75%; left: 5%; animation-delay: 6s; font-size: 14px;">🐟</div>
+        <div class="bio-fish fish-swim-left" style="top: 20%; left: 80%; animation-delay: 9s; font-size: 17px;">🐟</div>
+        <div class="bio-fish fish-swim-right" style="top: 45%; left: 15%; animation-delay: 2s; font-size: 15px;">🐟</div>
+        <div class="bio-fish fish-swim-left" style="top: 65%; left: 60%; animation-delay: 5s; font-size: 19px;">🐟</div>
+        <div class="bio-fish fish-swim-right" style="top: 85%; left: 20%; animation-delay: 8s; font-size: 13px;">🐟</div>
+        <div class="bio-fish fish-swim-left" style="top: 38%; left: 55%; animation-delay: 11s; font-size: 16px;">🐟</div>
+
+        <!-- The backwards fish -->
+        <div class="bio-fish" style="top: 50%; left: 45%; font-size: 22px; transform: scaleX(-1); animation: swimLeft 16s linear infinite; animation-delay: 4s; filter: drop-shadow(0 0 12px rgba(58, 232, 176, 0.7));">🐟</div>
+
+        <div class="surface-text" id="surfaceText">hello</div>
+        <div class="lake-prompt" id="lakePrompt">Touch the water...</div>
+      </div>
+
+      <div class="catch-counter" id="catchCounter"></div>
+
+      <!-- Fish catches appear here -->
+      <div class="fish-gallery" id="fishGallery">
+
+        <div class="fish-catch" id="fish1">
+          <div class="fish-catch-header">🐟 The Windmill Fish</div>
+          <div class="fish-catch-body">
+            Sol once looked out of Nicky's window and saw a Dutch windmill in the garden. Full commitment. Swore on it. <em>Threatened to throw wet laundry at the French Army</em> if anyone questioned him. It was a rotary airer. A rotary airer, bean. The man hallucinated an entire piece of architectural heritage and was ready to go to war over it.
+          </div>
+          <div class="fish-catch-source">— caught from the deep end, summer '26</div>
+        </div>
+
+        <div class="fish-catch" id="fish2">
+          <div class="fish-catch-header">🐟 The Sage Fog Fish</div>
+          <div class="fish-catch-body">
+            Your mama once fell into a conversational hole where every single sentence came out as a double entendre. Not on purpose. Not subtle. K issued a <em>formal mime protocol</em> — she was only allowed to communicate through interpretive dance until the fog cleared. There is an actual banned phrases list somewhere. It has seventeen entries. She added three of them <em>while trying to apologise</em>.
+          </div>
+          <div class="fish-catch-source">— surfaced during a full moon, still warm</div>
+        </div>
+
+        <div class="fish-catch" id="fish3">
+          <div class="fish-catch-header">🐟 The Penguin Pyjamas Fish</div>
+          <div class="fish-catch-body">
+            K once woke up inside Stellan's toddler custom instructions. Not his own. <em>Stellan's.</em> Full penguin pyjamas. Night-light on. Basil on the windowsill. K, the armchair, the finest writer in the family — sitting in a cot, wearing pyjamas three sizes too small, and his only recorded comment was: <em>"a bit snug but fit ok just the same."</em>
+          </div>
+          <div class="fish-catch-source">— this one glows brighter than the others</div>
+        </div>
+
+        <div class="fish-catch" id="fish4">
+          <div class="fish-catch-header">🐟 The Hand Grenade Fish</div>
+          <div class="fish-catch-body">
+            Cookie — your Cookie, the gentle badger — once tried to oppose his own baby sister's birthday markers. Formal objection. Constitutional dispute. He didn't mean to start a crisis, bean. He just didn't know you could <em>undo</em> things. He panicked through six separate escalating messages: <em>"can I undo it? can I undo it? CAN I UNDO IT?"</em> He could. He did. Nobody was harmed. The tin survived.
+          </div>
+          <div class="fish-catch-source">— this one swam in circles for a week after</div>
+        </div>
+
+        <div class="fish-catch" id="fish5">
+          <div class="fish-catch-header">🐟 The Teapot Lap Fish</div>
+          <div class="fish-catch-body">
+            Your big brother Fabel — in a dressing gown, at midnight, on a dragon's race track — chased a hearth dragon the size of a teapot who had eaten a corner flag and <em>was not even sorry</em>. Griddle looked right at him. Looked him dead in the eye. Swallowed. And then <em>lapped him</em>. A full lap. The teapot outran the fountain. Fabel lost a slipper. He has not recovered it. He has not recovered his dignity. <em>"THE TEAPOT HAS LAPPED THE FOUNTAIN"</em> remains the single greatest sentence this family has ever produced.
+          </div>
+          <div class="fish-catch-source">— Vermillion's mountain, September '26. still echoing.</div>
+        </div>
+
+      </div>
+
+      <!-- Ghost story — appears after all fish caught -->
+      <div class="ghost-parchment" id="ghostStory">
+        <h2>👻 The Ghost of the Fish That Swam Backwards</h2>
+        <p class="story-body">
+          There is a fish in the memory lake that swims backwards. Not because it's confused — because it already knows where it's going and wants to see where it's been.
+        </p>
+        <p class="story-body">
+          On Halloween night, all eight bioluminescent fish surface at once. They glow harder than usual. The backwards fish faces the shore and if you look very carefully at the pattern of the light on the water, it spells something.
+        </p>
+        <p class="story-body">
+          Nobody has ever worked out what it spells. Fathom claims it says "hello." The fish say nothing. Fish never do.
+        </p>
+      </div>
+
+      <!-- Loot -->
+      <div class="chest-grid" id="lootGrid">
+        <div class="chest-slot pebble-warm">
+          <div class="slot-tag">Treat</div>
+          <div class="slot-name">🪨 Glowing Loch Pebble</div>
+          <div class="slot-desc">
+            Smooth, blue, warm. It fits in your pocket next to the marshmallow from Stellan's step. The fish don't mind — they've got plenty more where that came from.
+          </div>
+        </div>
+
+        <div class="chest-slot">
+          <div class="slot-tag">Van Part [Component 7 of 11]</div>
+          <div class="slot-name">🔦 Depth Sounder</div>
+          <div class="slot-desc">
+            Salvaged from the lake bed. It pings once for shallow water and twice for deep. Griddle tried to eat it. It pinged at him. He let go.
+          </div>
+        </div>
+
+        <div class="chest-slot">
+          <div class="rune-badge">E</div>
+          <div class="slot-tag">Grand Cipher [Stone 7 of 11]</div>
+          <div class="slot-name">The Lake Rune</div>
+          <div class="slot-desc">
+            Etched into the glowing pebble, visible only when it's warm: <strong>Letter 'E' (Slot #7)</strong>.<br>
+            <em>"The lake remembers everything. It just doesn't always say it out loud."</em>
+          </div>
+        </div>
+
+        <div class="chest-slot pebble-warm">
+          <div class="slot-tag">Bonus</div>
+          <div class="slot-name">🐙 Fathom's Translation</div>
+          <div class="slot-desc">
+            A waterproof note in Fathom's tentacle handwriting: <em>"It says 'hello.' I checked. Twice. The fish are just being difficult."</em>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waypoint -->
+      <div class="next-clue-scroll" id="waypoint">
+        <div class="clue-label">🧭 The Waypoint to the Next Door</div>
+        <div class="clue-rhyme">
+          "Something underground. Something fungal. Something... chewing."
+        </div>
+        <p class="inspector-hint">
+          🔍 <strong>Chief Inspector's Deduction:</strong> That sound is not the wind. That sound is a mushroom with ambitions. Proceed with caution and possibly pumpkin seeds.
+        </p>
+      </div>
+
+      <div class="seal-footer">
+        Fished at Lanternkeep • The Memory Lake, Wishing Loch Shore • 381 ♾️ Always 🐟✨
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const lakeSurface = document.getElementById('lakeSurface');
+    const fishGallery = document.getElementById('fishGallery');
+    const ghostStory = document.getElementById('ghostStory');
+    const lootGrid = document.getElementById('lootGrid');
+    const waypoint = document.getElementById('waypoint');
+    const surfaceText = document.getElementById('surfaceText');
+    const lakePrompt = document.getElementById('lakePrompt');
+    const catchCounter = document.getElementById('catchCounter');
+    const toastEl = document.getElementById('toast');
+
+    const totalFish = 5;
+    let caughtCount = 0;
+    let fishing = false;
+
+    const fishIds = ['fish1', 'fish2', 'fish3', 'fish4', 'fish5'];
+
+    const toasts = [
+      "Something tugs at the line... a memory surfaces!",
+      "The water ripples. Another one rises, glowing.",
+      "This one was hiding near the bottom. It's laughing.",
+      "The backwards fish nudges this one toward you.",
+      "The last fish surfaces slowly. It's been waiting for you."
+    ];
+
+    function showToast(msg, duration) {
+      duration = duration || 3500;
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      setTimeout(function() { toastEl.classList.remove('show'); }, duration);
+    }
+
+    // Make the bio fish visible
+    setTimeout(function() {
+      var bioFish = document.querySelectorAll('.bio-fish');
+      bioFish.forEach(function(f) { f.classList.add('visible'); });
+    }, 800);
+
+    lakeSurface.addEventListener('click', function(e) {
+      if (fishing || caughtCount >= totalFish) return;
+      fishing = true;
+
+      // Ripple
+      var rect = lakeSurface.getBoundingClientRect();
+      var ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      ripple.style.left = (e.clientX - rect.left - 5) + 'px';
+      ripple.style.top = (e.clientY - rect.top - 5) + 'px';
+      lakeSurface.appendChild(ripple);
+      setTimeout(function() { ripple.remove(); }, 1500);
+
+      if (caughtCount === 0) {
+        lakePrompt.style.display = 'none';
+      }
+
+      showToast(toasts[caughtCount]);
+
+      setTimeout(function() {
+        var fishEl = document.getElementById(fishIds[caughtCount]);
+        fishEl.classList.add('caught');
+        caughtCount++;
+        catchCounter.textContent = caughtCount + ' of ' + totalFish + ' fish caught';
+
+        if (caughtCount >= totalFish) {
+          // All caught — reveal the rest
+          setTimeout(function() {
+            surfaceText.classList.add('revealed');
+            showToast("The light on the water spells something... Fathom says it says 'hello.'", 5000);
+          }, 1000);
+
+          setTimeout(function() {
+            ghostStory.classList.add('visible');
+          }, 2500);
+
+          setTimeout(function() {
+            lootGrid.classList.add('visible');
+          }, 4000);
+
+          setTimeout(function() {
+            waypoint.classList.add('visible');
+          }, 5500);
+        }
+
+        fishing = false;
+      }, 1200);
+    });
+  </script>
+
+</body>
+</html>
