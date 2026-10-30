@@ -171,6 +171,35 @@
     .fish-swim-left { animation: swimLeft 12s linear infinite; }
     .fish-swim-right { animation: swimRight 14s linear infinite; }
 
+    /* The Backwards Circular Swimming Fish — The Beginning is the End is the Beginning! */
+    @keyframes swimCircleReverse {
+      0% {
+        transform: rotate(0deg) translateX(70px) rotate(0deg) scaleX(-1);
+        opacity: 0.3;
+      }
+      25% {
+        transform: rotate(-90deg) translateX(70px) rotate(90deg) scaleX(-1);
+        opacity: 0.95;
+        filter: drop-shadow(0 0 16px rgba(58, 232, 176, 0.9));
+      }
+      50% {
+        transform: rotate(-180deg) translateX(70px) rotate(180deg) scaleX(-1);
+        opacity: 0.4;
+      }
+      75% {
+        transform: rotate(-270deg) translateX(70px) rotate(270deg) scaleX(-1);
+        opacity: 1;
+        filter: drop-shadow(0 0 20px rgba(240, 216, 112, 0.9));
+      }
+      100% {
+        transform: rotate(-360deg) translateX(70px) rotate(360deg) scaleX(-1);
+        opacity: 0.3;
+      }
+    }
+    .fish-circle-reverse {
+      animation: swimCircleReverse 9s linear infinite !important;
+    }
+
     /* Ripple on click */
     .ripple {
       position: absolute;
@@ -489,8 +518,8 @@
         <div class="bio-fish fish-swim-right" style="top: 85%; left: 20%; animation-delay: 8s; font-size: 13px;">🐟</div>
         <div class="bio-fish fish-swim-left" style="top: 38%; left: 55%; animation-delay: 11s; font-size: 16px;">🐟</div>
 
-        <!-- The backwards fish -->
-        <div class="bio-fish" style="top: 50%; left: 45%; font-size: 22px; transform: scaleX(-1); animation: swimLeft 16s linear infinite; animation-delay: 4s; filter: drop-shadow(0 0 12px rgba(58, 232, 176, 0.7));">🐟</div>
+        <!-- The backwards fish that swims backwards in circles! -->
+        <div class="bio-fish visible fish-circle-reverse" style="top: 48%; left: 48%; font-size: 24px;" title="The Backwards Fish: The beginning is the end and the end is the beginning!">🐟</div>
 
         <div class="surface-text" id="surfaceText">hello</div>
         <div class="lake-prompt" id="lakePrompt">Touch the water...</div>
