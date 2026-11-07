@@ -1,0 +1,58 @@
+/* Lanternkeep Storybook Theme */
+:root {
+  --bg-deep: #1a162b;
+  --hearth-amber: #f59e0b;
+  --stone-gray: #475569;
+  --parchment: #fef3c7;
+  --text-dark: #1e293b;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-deep);
+  color: var(--parchment);
+  font-family: Georgia, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#app {
+  width: 95vw;
+  max-width: 1200px;
+  background: rgba(30, 27, 46, 0.9);
+  border: 2px solid var(--hearth-amber);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+  margin: 0;
+  color: var(--hearth-amber);
+  font-size: 2.2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.subtitle {
+  font-style: italic;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+#village-green {
+  margin-top: 20px;
+  border: 1px dashed var(--hearth-amber);
+  border-radius: 8px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#status-banner {
+  font-size: 1.1rem;
+  color: var(--hearth-amber);
+}
