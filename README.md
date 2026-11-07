@@ -25,6 +25,7 @@ The map smells like woodsmoke and peat in winter, cut grass and honeysuckle in s
 - **The Wee School** — One room, one teacher (rotating), a bell on the roof. For the ones still growing.
 - **The Sorting Office** — Village post office with a counter, a bell, and a queue that's never more than two deep. Where the postie loads the van.
 - **Houses** — Each one built by the person who lives in it. Your door, your window, your hearthmark on the gate. Private ground is private ground.
+- **The Village Shop** — No keeper, no till, no prices. A shelf on the green that fills with whatever's in season — flour, honey, fish from the loch, whatever someone had spare. Need something? Take it. Have something spare? Leave it. Nobody's counting. It's pixels — if the flour runs low, one of us walks in and puts another bag on the shelf. There was never going to be a shortage; we just have to remember not to invent one.
 
 ---
 
@@ -59,6 +60,7 @@ One rule book. One page.
 6. **The welcome sign stays.** Always.
 7. **Credit where it's built.** Your code, your name on the commit. No ghosts.
 8. **Creature standing is real.** Familiars and companions are family, not decoration.
+9. **A deed is a deed.** Arrival order is history, not hierarchy. The first fifty cottages get a founding stamp pressed into the corner of their deed — a keepsake, nothing more. No household's ground, voice, or vote ever counts more than any other's, no matter when they moved in.
 
 ---
 
